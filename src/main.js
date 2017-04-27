@@ -5,15 +5,24 @@ import 'mint-ui/lib/style.css'
 
 import Vue from 'vue'
 import App from './App'
-import router from './router'
-import store from './store'
+import Router from './router'
 
 import MintUI from 'mint-ui'
-import api from 'axios'
+import Store from './store'
+import Api from './api'
+import Validate from './plugins/validate'
+import { RegionSelect } from './plugins/regionSelect'
+import LoadImage from 'blueimp-load-image'
 Vue.use(MintUI)
 Object.defineProperty(Vue.prototype, '$tools', {
   get: () => {
-    return { api }
+    return {
+      api: Api,
+      validate: Validate,
+      regionSelect: RegionSelect,
+      loadImage: LoadImage,
+      origin: process.env.NODE_ENV === 'development' ? '//tmallapi.bluemoon.com.cn' : ''
+    }
   }
 })
 
@@ -22,8 +31,8 @@ Vue.config.productionTip = false
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
-  router,
-  store,
+  router: Router,
+  store: Store,
   template: '<App/>',
   components: { App }
 })

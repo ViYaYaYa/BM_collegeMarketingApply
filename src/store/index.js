@@ -22,7 +22,9 @@ export default new Vuex.Store({
     'jgProvinceName': null, // 籍贯省份名称 string 必填
     'major': null, // 专业名称 string 必填
     'matchType': null, // 参赛身份 string leader-队长 member-队员，必填
+    'mobileCode': null, // 个人手机验证码 内部接口需要
     'mobile': null, // 手机号码 string 必填
+    'mobileLeader': null, // 队长手机 内部接口需要
     'personName': null, // 姓名 string 必填
     'photoPath': null, // 图片相对路径 string 必填
     'schoolCode': null, // 学校编码 string 必填

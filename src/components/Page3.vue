@@ -1,0 +1,204 @@
+<template>
+  <section>
+    <header class="m_progress">
+      <div>
+        <button class="pot active"></button><span class="line active"></span><button class="pot active"></button><span class="line active"></span><button class="pot active"></button><span class="line active"></span><button class="pot"></button>
+      </div>
+      <div>
+        <button class="status active">参赛信息</button><button class="status active">学校信息</button><button class="status active current">个人信息</button><button class="status">报名成功</button>
+      </div>
+    </header>
+    <section class="m_form">
+      <label class="ui-cell">
+        <span class="ui-cell-key">姓名</span>
+        <input class="ui-cell-value" type="text" placeholder="请输入" v-model="store['personName']">
+      </label>
+      <label class="ui-cell">
+        <span class="ui-cell-key">性别</span>
+        <div class="ui-cell-value">
+          <label class="ui-radio-label">
+            <input class="ui-radio-control" type="radio" value="m" v-model="store['gender']">
+            <span class="ui-radio"></span><span>男</span>
+          </label>
+          <label class="ui-radio-label">
+            <input class="ui-radio-control" type="radio" value="f" v-model="store['gender']">
+            <span class="ui-radio"></span><span>女</span>
+          </label>
+        </div>
+      </label>
+      <label class="ui-cell">
+        <span class="ui-cell-key">身份证号</span>
+        <input maxlength="18" class="ui-cell-value" type="text" placeholder="请输入" v-model="store['idcard']">
+      </label>
+      <label class="ui-cell">
+        <span class="ui-cell-key">血型(选填)</span>
+        <div class="ui-cell-value">
+          <label class="ui-radio-label">
+            <input class="ui-radio-control" type="radio" value="A" v-model="store['blood']">
+            <span class="ui-radio"></span><span>A</span>
+          </label>
+          <label class="ui-radio-label">
+            <input class="ui-radio-control" type="radio" value="B" v-model="store['blood']">
+            <span class="ui-radio"></span><span>B</span>
+          </label>
+          <label class="ui-radio-label">
+            <input class="ui-radio-control" type="radio" value="O" v-model="store['blood']">
+            <span class="ui-radio"></span><span>O</span>
+          </label>
+          <label class="ui-radio-label">
+            <input class="ui-radio-control" type="radio" value="AB" v-model="store['blood']">
+            <span class="ui-radio"></span><span>AB</span>
+          </label>
+        </div>
+      </label>
+      <label class="ui-cell">
+        <span class="ui-cell-key">籍贯</span>
+        <input class="ui-cell-value-link" type="text" placeholder="请选择" ref="place" readonly :value="(store['jgProvinceName'] || '') + (store['jgCityName'] || '')">
+      </label>
+      <label class="ui-cell">
+        <span class="ui-cell-key">个人照</span>
+        <label class="ui-cell-value file" :class="{ 'ui-cell-value-invalid': !store['photoPath'], 'file-valid': store['photoPath'] }">半身清晰免冠照({{ store['photoPath'] ? '已' : '未' }}上传)<input type="file" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0;" @click="viewImage" @change="upload"></label>
+      </label>
+    </section>
+    <button class="ui-btn c_submit" @click="submit">下一步</button>
+  </section>
+</template>
+<script>
+  export default {
+    data () {
+      return {
+        regionSelecter: null
+      }
+    },
+    computed: {
+      store () {
+        return this.$store.state
+      }
+    },
+    methods: {
+      viewImage (ev) {
+        if (this.store['photoPath']) {
+          this.$router.push('/preview')
+          ev.preventDefault()
+        }
+      },
+      upload (ev) {
+        this.$tools.loadImage(ev.target.files[0], (canvas) => {
+          let base64 = canvas.toDataURL()
+          this.$tools.api.post('/bluemoon-control/schoolMatch/uploadImg', {
+            'imgInfo': base64.substring(22)
+          }).then(res => {
+            this.store['photoPath'] = res['path']
+          })
+        }, { canvas: true })
+      },
+      submit () {
+        this.$tools.api.post('/bluemoon-control/schoolMatch/saveApplyInfo', {
+          'blood': this.store['blood'],
+          'college': this.store['college'],
+          'cuCityCode': this.store['cuCityCode'],
+          'cuCityName': this.store['cuCityName'],
+          'cuProvinceCode': this.store['cuProvinceCode'],
+          'cuProvinceName': this.store['cuProvinceName'],
+          'email': this.store['email'],
+          'enterDate': this.store['enterDate'],
+          'gender': this.store['gender'],
+          'gradEducation': this.store['gradEducation'],
+          'idcard': this.store['idcard'],
+          'jgCityCode': this.store['jgCityCode'],
+          'jgCityName': this.store['jgCityName'],
+          'jgProvinceCode': this.store['jgProvinceCode'],
+          'jgProvinceName': this.store['jgProvinceName'],
+          'major': this.store['major'],
+          'matchType': this.store['matchType'],
+          'mobile': this.store['mobile'],
+          'personName': this.store['personName'],
+          'photoPath': this.store['photoPath'],
+          'schoolCode': this.store['schoolCode'],
+          'schoolName': this.store['schoolName'],
+          'teamId': this.store['teamId'],
+          'teamName': this.store['teamName']
+        }).then(res => {
+          this.$router.push('/finish')
+        })
+      }
+    },
+    mounted () {
+      this.regionSelector = this.$tools.regionSelect(this.$refs.place, {
+        complete: (data) => {
+          this.store['jgCityCode'] = data['city']['code']
+          this.store['jgCityName'] = data['city']['name']
+          this.store['jgProvinceCode'] = data['province']['code']
+          this.store['jgProvinceName'] = data['province']['name']
+        }
+      })
+    },
+    beforeRouteLeave (to, from, next) {
+      this.regionSelector.close()
+      next()
+    }
+  }
+</script>
+<style lang="less" scoped>
+  .m_progress {
+    text-align: center;
+    padding: 12px 0 6px;
+    .pot, .line {
+      display: inline-block;
+      vertical-align: middle;
+      background-color: #e5e5e5;
+      &.active {
+        background-color: #3B99EC;
+      }
+    }
+    .pot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+    .line {
+      width: 46px;
+      height: 2px;
+      margin: 0 2px;
+    }
+    .status {
+      padding: 0;
+      width: 63px;
+      margin-top: 4px;
+      font-size: 11px;
+      color: #999;
+      &.active {
+        color: #3B99EC;
+      }
+    }
+    .current {
+      font-weight: bold;
+    }
+  }
+
+  .file {
+    position: relative;
+    height: 30px;
+    line-height: 30px;
+    background: url("../assets/page_file.png") right no-repeat;
+    background-size: 30px;
+    padding-right: 38px;
+    &-valid {
+      background-image: url("../assets/page_file-added.png");
+    }
+  }
+
+  .added {
+    background-image: url("../assets/page_file-added.png");
+    color: inherit;
+  }
+
+  .c_submit {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    color: #fff;
+  }
+</style>

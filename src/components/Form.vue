@@ -5,16 +5,13 @@
       <h2 class="slogan">精品洗涤缔造精致生活</h2>
     </header>
     <section class="ui-card m_pages">
-      <page1 class="page"></page1>
-      <button class="ui-btn">下一步</button>
+      <router-view></router-view>
     </section>
   </section>
 </template>
 
 <script>
-  import Page1 from '@/components/Page1.vue'
   export default {
-    components: { Page1 }
   }
 </script>
 
@@ -25,8 +22,9 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: center no-repeat #5db3ff;
     padding: 12px;
+    background: url("../assets/bg.png") top no-repeat #5db3ff;
+    background-size: cover;
     padding-top: 84px;
     overflow-y: auto;
   }
@@ -54,16 +52,5 @@
     overflow: hidden;
     margin: 0;
     padding-bottom: 50px;
-    .page {
-      height: 100%;
-    }
-    .ui-btn {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 50px;
-      color: #fff;
-    }
   }
 </style>

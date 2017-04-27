@@ -4,6 +4,9 @@
 
 <script>
 export default {
+  created () {
+    this.$store.state['matchType'] || this.$router.replace('/form')
+  }
 }
 </script>
 
@@ -36,6 +39,24 @@ export default {
     appearance: none;    
   }
 
+  .mint-msgbox-title {
+    font-size: 12px;
+    color: #999;
+    font-weight: normal;
+  }
+
+  .mint-msgbox-message {
+    font-size: 14px;
+    color: #333;
+    font-weight: normal;
+  }
+
+  .clearfix:after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+
   .ui-card {
     background: #fff;
     box-shadow: 0px 4px 8px 0px rgba(7,57,101,0.60);
@@ -65,12 +86,24 @@ export default {
     flex-grow: 1;
     text-align: right;
     width: 1px;
+    font-size: 1em;
+  }
+
+  .ui-cell-value-invalid {
+    color: #999;
+  }
+
+  .ui-cell-value::placeholder, .ui-cell-value-link::placeholder {
+    color: #999;
   }
 
   .ui-cell-value-link {
     background: url("assets/ui_cell-link.png") right no-repeat;
     background-size: 2em;
     padding-right: 2em;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 
   .ui-cell-control, .ui-cell-control-disabled {
@@ -95,6 +128,23 @@ export default {
   .ui-btn {
     background: #FFCF35;
     padding: 12px 8px;
+    position: relative;
+  }
+
+  .ui-btn-round {
+    background: #FFCF35;
+    box-shadow: 0px 2px 6px 0px rgba(142,109,1,0.65);
+    padding: 12px 8px;
+    border-radius: 100px;
+  }
+
+  .ui-radio-label {
+    position: relative;
+    display: inline-block;
+  }
+
+  .ui-radio-label:first-of-type .ui-radio {
+    margin-left: 0;
   }
 
   .ui-radio-control {
@@ -103,13 +153,79 @@ export default {
   }
 
   .ui-radio {
-    background: url("assets/ui_radio.png") left no-repeat;
-    background-size: 1em;
-    padding-left: 1.5em;
-    margin-left: 16px;
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    vertical-align: middle;
+    background-color: #fff;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+    position: relative;
+    margin-left: 13px;
+    margin-right: 0.6em;
+    box-sizing: content-box;
+  }
+
+  .ui-radio:after {
+    content: "";
+    border-radius: 50%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    position: absolute;
+    width: 0.5em;
+    height: 0.5em;
+    transition: transform .2s;
+    transform: scale(0);
+    z-index: 1;
   }
 
   .ui-radio-control:checked + .ui-radio {
-    background-image: url("assets/ui_radio-checked.png")
+    background-color: #26a2ff;
+    border-color: #26a2ff;
+  }
+
+  .ui-radio-control:checked + .ui-radio:after {
+    background-color: #fff;
+    transform: scale(1);
+  }
+
+  .ui-spinner {
+    display: inline-block;
+    vertical-align: middle;
+    height: 1em;
+    width: 1em;
+    animation: ui-spinner .8s infinite linear;
+    border: 0.1em solid transparent;
+    border-radius: 50%;
+    border-top-color: #24a0ff;
+    border-left-color: #24a0ff;
+    border-bottom-color: #24a0ff;
+  }
+
+  @keyframes ui-spinner {
+    0% {
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+    100% {
+      -webkit-transform: rotate(1turn);
+      transform: rotate(1turn);
+    }
+  }
+
+  .ui-icon-success {
+    display: inline-block;
+    vertical-align: middle;
+    width: 30px;
+    height: 30px;
+    background: url("assets/ui_icon-success.png") center no-repeat;
+    background-size: contain;
+  }
+
+  .ui-picker-onlymonth .picker-slot:nth-of-type(3) {
+    display: none;
   }
 </style>
