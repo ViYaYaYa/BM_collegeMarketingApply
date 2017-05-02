@@ -137,6 +137,7 @@
             return this.$toast('请确认常用邮箱')
           }
           this.$tools.api.post('/bluemoon-control/schoolMatch/checkVerifyCode', {
+            'matchType': this.store['matchType'],
             'mobileNo': this.store['mobile'],
             'schoolCode': this.store['matchType'] === 'member' ? this.store['schoolCode'] : '',
             'teamName': this.store['matchType'] === 'member' ? this.store['teamName'] : '',
