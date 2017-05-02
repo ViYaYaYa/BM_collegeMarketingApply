@@ -2,10 +2,10 @@
   <section>
     <header class="m_progress">
       <div>
-        <button class="pot active"></button><span class="line active"></span><button class="pot active"></button><span class="line active"></span><button class="pot active"></button><span class="line active"></span><button class="pot"></button>
+        <span class="pot active"></span><span class="line active"></span><span class="pot active"></span><span class="line active"></span><span class="pot active"></span><span class="line active"></span><span class="pot"></span>
       </div>
       <div>
-        <button class="status active">参赛信息</button><button class="status active">学校信息</button><button class="status active current">个人信息</button><button class="status">报名成功</button>
+        <span class="status active">参赛信息</span><span class="status active">学校信息</span><span class="status active current">个人信息</span><span class="status">报名成功</span>
       </div>
     </header>
     <section class="m_form">
@@ -162,6 +162,7 @@
       margin: 0 2px;
     }
     .status {
+      display: inline-block;
       padding: 0;
       width: 63px;
       margin-top: 4px;

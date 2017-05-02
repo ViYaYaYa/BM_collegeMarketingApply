@@ -2,10 +2,10 @@
   <section>
     <header class="m_progress">
       <div>
-        <button class="pot active"></button><span class="line active"></span><button class="pot"></button><span class="line"></span><button class="pot"></button><span class="line"></span><button class="pot"></button>
+        <span class="pot active"></span><span class="line active"></span><span class="pot"></span><span class="line"></span><span class="pot"></span><span class="line"></span><span class="pot"></span>
       </div>
       <div>
-        <button class="status active">参赛信息</button><button class="status">学校信息</button><button class="status">个人信息</button><button class="status">报名成功</button>
+        <span class="status active">参赛信息</span><span class="status">学校信息</span><span class="status">个人信息</span><span class="status">报名成功</span>
       </div>
     </header>
     <section class="m_form">
@@ -28,6 +28,7 @@
         <button class="ui-cell-control" @click="getTeamName" v-show="!mobileLeaderStatus">确 定</button>
         <span class="ui-spinner checker" v-show="mobileLeaderStatus === 'CHECKING'"></span>
         <span class="ui-icon-success checker" v-show="mobileLeaderStatus === 'SUCCESS'"></span>
+        <span class="ui-icon-fail checker" v-show="mobileLeaderStatus === 'FAIL'"></span>
       </label>
       <label class="ui-cell">
         <span class="ui-cell-key">团队名称</span>
@@ -90,6 +91,8 @@
               this.store['teamName'] = res['teamName']
               Object.assign(this.store, res['schoolInfo'])
             }
+          }).catch(() => {
+            this.mobileLeaderStatus = 'FAIL'
           })
         } else {
           this.$toast('请确定队长手机')
@@ -175,6 +178,7 @@
       margin: 0 2px;
     }
     .status {
+      display: inline-block;
       padding: 0;
       width: 63px;
       margin-top: 4px;

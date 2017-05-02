@@ -229,6 +229,15 @@ export default {
     background-size: contain;
   }
 
+  .ui-icon-fail {
+    display: inline-block;
+    vertical-align: middle;
+    width: 30px;
+    height: 30px;
+    background: url("assets/ui_icon-fail.png") center no-repeat;
+    background-size: contain;
+  }
+
   .ui-picker-onlymonth .picker-slot:nth-of-type(3) {
     display: none;
   }

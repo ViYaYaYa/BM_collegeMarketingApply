@@ -2,10 +2,10 @@
   <section>
     <header class="m_progress">
       <div>
-        <button class="pot active"></button><span class="line active"></span><button class="pot active"></button><span class="line active"></span><button class="pot"></button><span class="line"></span><button class="pot"></button>
+        <span class="pot active"></span><span class="line active"></span><span class="pot active"></span><span class="line active"></span><span class="pot"></span><span class="line"></span><span class="pot"></span>
       </div>
       <div>
-        <button class="status active">参赛信息</button><button class="status active current">学校信息</button><button class="status">个人信息</button><button class="status">报名成功</button>
+        <span class="status active">参赛信息</span><span class="status active current">学校信息</span><span class="status">个人信息</span><span class="status">报名成功</span>
       </div>
     </header>
     <section class="m_form">
@@ -31,10 +31,10 @@
           <option>大专</option>
         </select>
       </label>
-      <label class="ui-cell">
+      <div class="ui-cell">
         <span class="ui-cell-key">入学年月</span>
         <input class="ui-cell-value-link" :value="store['enterDate'] && enterDateObj.getFullYear() + '-' + (+enterDateObj.getMonth() + 1)" type="text" placeholder="请选择" readonly @click="$refs.picker.open()">
-      </label>
+      </div>
     </section>
     <mt-datetime-picker class="ui-picker-onlymonth" ref="picker" type="date" v-model="enterDate" @confirm="store['enterDate'] = +enterDate"></mt-datetime-picker>
     <button class="ui-btn c_submit" @click="submit">下一步</button>
@@ -110,6 +110,7 @@
       margin: 0 2px;
     }
     .status {
+      display: inline-block;
       padding: 0;
       width: 63px;
       margin-top: 4px;
