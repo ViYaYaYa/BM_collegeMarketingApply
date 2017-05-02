@@ -31,10 +31,10 @@
           <option>大专</option>
         </select>
       </label>
-      <div class="ui-cell">
+      <label class="ui-cell">
         <span class="ui-cell-key">入学年月</span>
-        <input class="ui-cell-value-link" :value="store['enterDate'] && enterDateObj.getFullYear() + '-' + (+enterDateObj.getMonth() + 1)" type="text" placeholder="请选择" readonly @click="$refs.picker.open()">
-      </div>
+        <span class="ui-cell-value-link" @click="$refs.picker.open()" :class="{ 'ui-cell-value-invalid': !store['enterDate'] }">{{ store['enterDate'] ? enterDateObj.getFullYear() + '-' + (+enterDateObj.getMonth() + 1) : '请选择' }}</span>
+      </label>
     </section>
     <mt-datetime-picker class="ui-picker-onlymonth" ref="picker" type="date" v-model="enterDate" @confirm="store['enterDate'] = +enterDate"></mt-datetime-picker>
     <button class="ui-btn c_submit" @click="submit">下一步</button>
