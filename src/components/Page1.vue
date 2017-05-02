@@ -102,14 +102,21 @@
       getAuthCode () {
         if (!this.mobileTimer) {
           if (this.$tools.validate['phone'].test(this.store['mobile'])) {
-            this.$tools.api.post('/bluemoon-control/schoolMatch/getVerifyCode', { 'mobileNo': this.store['mobile'] }).then(() => {
-              this.mobileCounter = 120
+            let counter = (seconds) => {
+              this.mobileCounter = seconds
               this.mobileTimer = setInterval(() => {
                 if (--this.mobileCounter === 0) {
                   clearTimeout(this.mobileTimer)
                   this.mobileTimer = null
                 }
               }, 1000)
+            }
+            this.$tools.api.post('/bluemoon-control/schoolMatch/getVerifyCode', { 'mobileNo': this.store['mobile'] }).then(() => {
+              counter(120)
+            }).catch(res => {
+              if (res['responseCode'] === 2203) {
+                counter(res['time'])
+              }
             })
           } else {
             this.$toast('请确定个人手机')
