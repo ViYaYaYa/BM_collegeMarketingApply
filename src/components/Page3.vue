@@ -94,7 +94,7 @@
       },
       submit () {
         this.$tools.api.post('/bluemoon-control/schoolMatch/saveApplyInfo', {
-          'blood': this.store['blood'],
+          'blood': this.store['blood'] || 'NONE',
           'college': this.store['college'],
           'cuCityCode': this.store['cuCityCode'],
           'cuCityName': this.store['cuCityName'],
