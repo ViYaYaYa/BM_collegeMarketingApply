@@ -93,6 +93,21 @@
         }, { canvas: true })
       },
       submit () {
+        if (!this.store['personName']) {
+          return this.$toast('请确定姓名')
+        }
+        if (!this.store['gender']) {
+          return this.$toast('请确定性别')
+        }
+        if (!this.$tools.validate['idcard'].test(this.store['idcard'])) {
+          return this.$toast('请确定身份证号')
+        }
+        if (!this.store['jgCityCode']) {
+          return this.$toast('请确定籍贯')
+        }
+        if (!this.store['photoPath']) {
+          return this.$toast('请确定个人照')
+        }
         this.$tools.api.post('/bluemoon-control/schoolMatch/saveApplyInfo', {
           'blood': this.store['blood'] || 'NONE',
           'college': this.store['college'],
