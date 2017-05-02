@@ -101,7 +101,8 @@
         if (!this.store['gender']) {
           return this.$toast('请确定性别')
         }
-        if (!this.$tools.validate['idcard'].test(this.store['idcard'])) {
+        console.log(this.$tools.validate['idcardValidator'].isValid)
+        if (!this.$tools.validate['idcardValidator'].isValid(this.store['idcard'])) {
           return this.$toast('请确定身份证号')
         }
         if (!this.store['jgCityCode']) {
