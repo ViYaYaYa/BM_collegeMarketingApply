@@ -2,8 +2,8 @@
   <section class="ui-search">
     <header class="ui-search-head" :class="{ actived }">
       <label class="ui-search-label" @click="actived = true">
-        <span class="ui-search-placeholder">请输入</span>
-        <input class="ui-search-input" type="text" placeholder="请输入" v-model="value"></label>
+        <span class="ui-search-placeholder">请输入学校名称</span>
+        <input class="ui-search-input" type="text" placeholder="请输入学校名称" v-model="value"></label>
       <button class="ui-search-btn" @click="submit">{{ value ? '确 认' : '取 消' }}</button>
     </header>
     <section class="ui-search-results m_result" v-infinite-scroll="load" infinite-scroll-disabled="noscroll">
