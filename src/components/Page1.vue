@@ -89,6 +89,7 @@
             if (this.mobileLeaderStatus === 'CHECKING') {
               this.mobileLeaderStatus = 'SUCCESS'
               this.store['teamName'] = res['teamName']
+              this.store['teamId'] = res['teamId']
               Object.assign(this.store, res['schoolInfo'])
             }
           }).catch(() => {
