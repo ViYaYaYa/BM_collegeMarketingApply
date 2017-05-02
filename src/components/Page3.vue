@@ -57,10 +57,10 @@
       </label>
       <label class="ui-cell">
         <span class="ui-cell-key">个人照</span>
-        <label class="ui-cell-value file" :class="{ 'ui-cell-value-invalid': !store['photoPath'], 'file-valid': store['photoPath'] }">半身清晰免冠照({{ store['photoPath'] ? '已' : '未' }}上传)<input type="file" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0;" @click="viewImage" @change="upload"></label>
+        <label class="ui-cell-value file" :class="{ 'ui-cell-value-invalid': !store['photoPath'], 'file-valid': store['photoPath'] }">半身清晰免冠照({{ store['photoPath'] ? '已' : '未' }}上传)<input type="file" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0;" @click="viewImage" @change="upload" accept="image/*"></label>
       </label>
     </section>
-    <button class="ui-btn c_submit" @click="submit">下一步</button>
+    <button class="ui-btn c_submit" @click="submit">提 交</button>
   </section>
 </template>
 <script>
@@ -83,11 +83,13 @@
         }
       },
       upload (ev) {
+        this.$indicator.open()
         this.$tools.loadImage(ev.target.files[0], (canvas) => {
           let base64 = canvas.toDataURL()
           this.$tools.api.post('/bluemoon-control/schoolMatch/uploadImg', {
             'imgInfo': base64.substring(22)
           }).then(res => {
+            this.$indicator.close()
             this.store['photoPath'] = res['path']
           })
         }, { canvas: true })

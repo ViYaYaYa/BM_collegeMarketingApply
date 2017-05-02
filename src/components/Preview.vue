@@ -12,11 +12,13 @@
     },
     methods: {
       upload (ev) {
+        this.$indicator.open()
         this.$tools.loadImage(ev.target.files[0], (canvas) => {
           let base64 = canvas.toDataURL()
           this.$tools.api.post('/bluemoon-control/schoolMatch/uploadImg', {
             'imgInfo': base64.substring(22)
           }).then(res => {
+            this.$indicator.close()
             this.store['photoPath'] = res['path']
             this.$router.back()
           })
