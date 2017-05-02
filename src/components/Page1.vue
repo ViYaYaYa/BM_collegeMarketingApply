@@ -41,7 +41,7 @@
       <label class="ui-cell">
         <span class="ui-cell-key">验证码</span>
         <input class="ui-cell-value" type="text" placeholder="请输入" v-model="store['mobileCode']">
-        <button class="ui-cell-control" :class="{ 'ui-cell-control-disabled': mobileTimer }" @click="getAuthCode">{{ mobileCounter ? '再次获取(' + mobileCounter + ')' : '获取验证码' }}</button>
+        <button class="ui-cell-control" :class="{ 'ui-cell-control-disabled': mobileTimer }" @click="getAuthCode">{{ mobileTimer ? '再次获取(' + mobileCounter + ')' : mobileCounter === 0 ? '重新获取' : '获取验证码' }}</button>
       </label>
       <label class="ui-cell">
         <span class="ui-cell-key">常用邮箱</span>
@@ -100,17 +100,17 @@
         }
       },
       getAuthCode () {
-        if (!this.mobileCounter) {
+        if (!this.mobileTimer) {
           if (this.$tools.validate['phone'].test(this.store['mobile'])) {
-            this.mobileCounter = 120
-            this.mobileTimer = setInterval(() => {
-              if (--this.mobileCounter === 0) {
-                this.mobileCounter = null
-                clearTimeout(this.mobileTimer)
-                this.mobileTimer = null
-              }
-            }, 1000)
-            this.$tools.api.post('/bluemoon-control/schoolMatch/getVerifyCode', { 'mobileNo': this.store['mobile'] })
+            this.$tools.api.post('/bluemoon-control/schoolMatch/getVerifyCode', { 'mobileNo': this.store['mobile'] }).then(() => {
+              this.mobileCounter = 120
+              this.mobileTimer = setInterval(() => {
+                if (--this.mobileCounter === 0) {
+                  clearTimeout(this.mobileTimer)
+                  this.mobileTimer = null
+                }
+              }, 1000)
+            })
           } else {
             this.$toast('请确定个人手机')
           }
