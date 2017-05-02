@@ -22,7 +22,11 @@ export default {
 
   html {
     font-size: 14px;
+  }
+
+  body {
     color: #333;
+    background-color: #5db3ff;
   }
 
   a, a:link, a:visited, a:hover, a:active {

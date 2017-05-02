@@ -10,7 +10,7 @@ import Page3 from '@/components/Page3.vue'
 
 Vue.use(Router)
 
-export default new Router({
+let routerInstance = new Router({
   routes: [
     {
       path: '/',
@@ -26,13 +26,26 @@ export default new Router({
       ]
     }, {
       path: '/search',
-      component: Search
+      component: Search,
+      meta: {
+        'title': '搜索学校名称'
+      }
     }, {
       path: '/finish',
       component: Finish
     }, {
       path: '/preview',
-      component: Preview
+      component: Preview,
+      meta: {
+        'title': '查看个人照'
+      }
     }
   ]
 })
+routerInstance.afterEach((() => {
+  let ORIGIN_TITLE = document.title
+  return (route) => {
+    document.title = route.meta['title'] !== undefined ? route.meta['title'] : ORIGIN_TITLE
+  }
+})())
+export default routerInstance

@@ -28,14 +28,13 @@ Axios.interceptors.response.use(response => {
   return Promise.reject(error)
 })
 
-// if (process.env.NODE_ENV === 'development') {
-//   Axios.defaults.baseURL = '//angelapi.bluemoon.com.cn'
-// } else {
-//   Axios.defaults.baseURL = '//angel.bluemoon.com.cn'
-// }
-Axios.defaults.baseURL = '//angelapi.bluemoon.com.cn'
+if (process.env.CODE_ENV === 'development') {
+  Axios.defaults.baseURL = '//angelapi.bluemoon.com.cn'
+} else {
+  Axios.defaults.baseURL = '//angel.bluemoon.com.cn'
+}
 
 export default Axios
 export let getProvince = (config = {}) => {
-  return Axios.post('//tmallapi.bluemoon.com.cn/moonRegion/region/getRegionSelect.action', config.data, config)
+  return Axios.post('//' + (process.env.CODE_ENV === 'development' ? 't' : '') + 'mallapi.bluemoon.com.cn/moonRegion/region/getRegionSelect.action', config.data, config)
 }

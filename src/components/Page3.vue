@@ -134,7 +134,7 @@
       })
     },
     beforeRouteLeave (to, from, next) {
-      this.regionSelector.close()
+      this && this.regionSelector && this.regionSelector.close()
       next()
     }
   }

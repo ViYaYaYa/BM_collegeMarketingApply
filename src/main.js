@@ -21,7 +21,7 @@ Object.defineProperty(Vue.prototype, '$tools', {
       validate: Validate,
       regionSelect: RegionSelect,
       loadImage: LoadImage,
-      origin: process.env.NODE_ENV === 'development' ? '//tmallapi.bluemoon.com.cn' : ''
+      origin: process.env.CODE_ENV === 'development' ? '//tmallapi.bluemoon.com.cn' : '//mallapi.bluemoon.com.cn'
     }
   }
 })
