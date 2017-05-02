@@ -101,7 +101,6 @@
         if (!this.store['gender']) {
           return this.$toast('请确定性别')
         }
-        console.log(this.$tools.validate['idcardValidator'].isValid)
         if (!this.$tools.validate['idcardValidator'].isValid(this.store['idcard'])) {
           return this.$toast('请确定身份证号')
         }
