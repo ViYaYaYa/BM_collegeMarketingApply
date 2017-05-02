@@ -1,6 +1,6 @@
 <template>
   <section class="m_preview" :style="{ 'background-image': 'url(' + $tools.origin + '/angelUpload/' + store['photoPath'] + ')' }">
-    <label class="ui-btn-round upload">更 换<input class="upload-control" type="file" @change="upload"></label>
+    <label class="ui-btn-round upload">更 换<input class="upload-control" type="file" @change="upload" accept="image/*"></label>
   </section>
 </template>
 <script>
