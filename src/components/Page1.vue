@@ -146,10 +146,10 @@
           }).then(res => {
             this.$router.push('page2')
           })
-          if (process.env.CODE_ENV === 'development') {
-            this.$toast('目前处于测试环境，即使验证码不正确也能跳转')
-            this.$router.push('page2')
-          }
+          // if (process.env.CODE_ENV === 'development') {
+          //   this.$toast('目前处于测试环境，即使验证码不正确也能跳转')
+          //   this.$router.push('page2')
+          // }
         } else {
           return this.$toast('请确定参赛身份')
         }
