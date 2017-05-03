@@ -92,7 +92,11 @@
             this.$indicator.close()
             this.store['photoPath'] = res['path']
           })
-        }, { canvas: true })
+        }, {
+          canvas: true,
+          maxWidth: 500,
+          maxHeight: 500
+        })
       },
       submit () {
         if (!this.store['personName']) {

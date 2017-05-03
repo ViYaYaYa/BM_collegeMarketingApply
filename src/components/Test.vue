@@ -9,10 +9,23 @@
       <input class="ui-cell-value" type="text" placeholder="这是一个用了cell样式的输入框">
     </label>
     <textarea>这是最原始的textarea</textarea>
+    <input type="file" accept="image/*" @change="testJavascriptLoadImage">
   </section>
 </template>
 <script>
-  export default {}
+  export default {
+    methods: {
+      testJavascriptLoadImage (ev) {
+        this.$tools.loadImage(ev.target.files[0], res => {
+          console.log(res)
+          document.body.appendChild(res)
+        }, {
+          maxWidth: 100,
+          maxHeight: 50
+        })
+      }
+    }
+  }
 </script>
 <style>
   .m_test {
