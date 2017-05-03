@@ -111,9 +111,8 @@
                 }
               }, 1000)
             }
-            this.$tools.api.post('/bluemoon-control/schoolMatch/getVerifyCode', { 'mobileNo': this.store['mobile'] }).then(() => {
-              counter(120)
-            }).catch(res => {
+            counter(120)
+            this.$tools.api.post('/bluemoon-control/schoolMatch/getVerifyCode', { 'mobileNo': this.store['mobile'] }).catch(res => {
               if (res['responseCode'] === 2203) {
                 counter(res['time'])
               }
