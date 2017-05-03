@@ -114,6 +114,7 @@
         if (!this.store['photoPath']) {
           return this.$toast('请确定个人照')
         }
+        this.$indicator.open()
         this.$tools.api.post('/bluemoon-control/schoolMatch/saveApplyInfo', {
           'blood': this.store['blood'] || 'NONE',
           'college': this.store['college'],
@@ -140,7 +141,10 @@
           'teamId': this.store['teamId'],
           'teamName': this.store['teamName']
         }).then(res => {
+          this.$indicator.close()
           this.$router.push('/finish')
+        }).catch(() => {
+          this.$indicator.close()
         })
       }
     },
