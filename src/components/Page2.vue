@@ -15,11 +15,11 @@
       </label>
       <label class="ui-cell">
         <span class="ui-cell-key">院系名称</span>
-        <input class="ui-cell-value" type="text" placeholder="请输入" v-model="store['college']">
+        <input class="ui-cell-value" type="text" placeholder="请输入" v-model="store['college']" maxlength="20">
       </label>
       <label class="ui-cell">
         <span class="ui-cell-key">专业名称</span>
-        <input class="ui-cell-value" type="text" placeholder="请输入" v-model="store['major']">
+        <input class="ui-cell-value" type="text" placeholder="请输入" v-model="store['major']" maxlength="20">
       </label>
       <label class="ui-cell">
         <span class="ui-cell-key">毕业学历</span>
