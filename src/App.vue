@@ -229,12 +229,12 @@ export default {
     background-size: contain;
   }
 
-  .ui-icon-fail {
+  .ui-icon-warn {
     display: inline-block;
     vertical-align: middle;
     width: 30px;
     height: 30px;
-    background: url("assets/ui_icon-fail.png") center no-repeat;
+    background: url("assets/ui_icon-warn.png") center no-repeat;
     background-size: contain;
   }
 

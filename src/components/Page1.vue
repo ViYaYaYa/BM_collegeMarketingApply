@@ -28,7 +28,7 @@
         <button class="ui-cell-control" @click="getTeamName" v-show="!mobileLeaderStatus">确 定</button>
         <span class="ui-spinner checker" v-show="mobileLeaderStatus === 'CHECKING'"></span>
         <span class="ui-icon-success checker" v-show="mobileLeaderStatus === 'SUCCESS'"></span>
-        <span class="ui-icon-fail checker" v-show="mobileLeaderStatus === 'FAIL'"></span>
+        <span class="ui-icon-warn checker" v-show="mobileLeaderStatus === 'WARN'"></span>
       </label>
       <label class="ui-cell">
         <span class="ui-cell-key">团队名称</span>
@@ -93,7 +93,7 @@
               Object.assign(this.store, res['schoolInfo'])
             }
           }).catch(() => {
-            this.mobileLeaderStatus = 'FAIL'
+            this.mobileLeaderStatus = 'WARN'
           })
         } else {
           this.$toast('请确定队长手机')

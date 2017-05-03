@@ -11,7 +11,7 @@
     <section class="m_form">
       <label class="ui-cell">
         <span class="ui-cell-key">姓名</span>
-        <input class="ui-cell-value" type="text" placeholder="请输入" v-model="store['personName']">
+        <input class="ui-cell-value" type="text" placeholder="请输入" v-model="store['personName']" maxlength="20">
       </label>
       <label class="ui-cell">
         <span class="ui-cell-key">性别</span>
