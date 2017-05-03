@@ -5,7 +5,7 @@
 <script>
 export default {
   created () {
-    this.$store.state['matchType'] || this.$router.replace('/form')
+    this.$route.path === '/test' || this.$store.state['matchType'] || this.$router.replace('/form')
   }
 }
 </script>
