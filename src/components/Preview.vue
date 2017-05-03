@@ -22,7 +22,11 @@
             this.store['photoPath'] = res['path']
             // this.$router.back()
           })
-        }, { canvas: true })
+        }, {
+          canvas: true,
+          maxWidth: 500,
+          maxHeight: 500
+        })
       }
     }
   }
