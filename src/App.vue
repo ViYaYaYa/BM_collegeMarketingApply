@@ -34,9 +34,10 @@ export default {
     text-decoration: none;
   }
 
-  button, input {
+  input, textarea, select, button {
     border: none;
     background-color: transparent;
+    font-size: inherit;
   }
 
   select {

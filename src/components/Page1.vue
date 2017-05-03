@@ -30,7 +30,7 @@
         <span class="ui-icon-success checker" v-show="mobileLeaderStatus === 'SUCCESS'"></span>
         <span class="ui-icon-warn checker" v-show="mobileLeaderStatus === 'WARN'"></span>
       </label>
-      <label class="ui-cell">
+      <label class="ui-cell" v-if="store['matchType'] === 'leader' || mobileLeaderStatus === 'SUCCESS'">
         <span class="ui-cell-key">团队名称</span>
         <input class="ui-cell-value" type="text" v-model="store['teamName']" :placeholder="store['matchType'] === 'member' ? '请确定队长手机号' : '请输入'" :readonly="store['matchType'] === 'member'" maxlength="20">
       </label>
@@ -40,7 +40,7 @@
       </label>
       <label class="ui-cell">
         <span class="ui-cell-key">验证码</span>
-        <input class="ui-cell-value" type="text" placeholder="请输入" v-model="store['mobileCode']">
+        <input class="ui-cell-value" type="tel" placeholder="请输入" v-model="store['mobileCode']">
         <button class="ui-cell-control" :class="{ 'ui-cell-control-disabled': mobileTimer }" @click="getAuthCode">{{ mobileTimer ? '再次获取(' + mobileCounter + ')' : mobileCounter === 0 ? '重新获取' : '获取验证码' }}</button>
       </label>
       <label class="ui-cell">
@@ -74,11 +74,14 @@
     watch: {
       matchType () {
         this.store['teamName'] = null
+        this.store['mobileLeader'] = null
         this.mobileLeaderStatus = null
       },
       mobileLeader () {
-        this.store['teamName'] = null
-        this.mobileLeaderStatus = null
+        if (this.mobileLeaderStatus) {
+          this.store['teamName'] = null
+          this.mobileLeaderStatus = null
+        }
       }
     },
     methods: {
