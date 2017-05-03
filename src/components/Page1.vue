@@ -25,12 +25,12 @@
       <label v-if="store['matchType'] === 'member'" class="ui-cell">
         <span class="ui-cell-key">队长手机</span>
         <input class="ui-cell-value" type="text" placeholder="请输入" maxlength="11" v-model="store['mobileLeader']">
-        <button class="ui-cell-control" @click="getTeamName" v-show="!mobileLeaderStatus">确 定</button>
-        <span class="ui-spinner checker" v-show="mobileLeaderStatus === 'CHECKING'"></span>
-        <span class="ui-icon-success checker" v-show="mobileLeaderStatus === 'SUCCESS'"></span>
-        <span class="ui-icon-warn checker" v-show="mobileLeaderStatus === 'WARN'"></span>
+        <button class="ui-cell-control" @click="getTeamName" v-show="!store['mobileLeaderStatus']">确 定</button>
+        <span class="ui-spinner checker" v-show="store['mobileLeaderStatus'] === 'CHECKING'"></span>
+        <span class="ui-icon-success checker" v-show="store['mobileLeaderStatus'] === 'SUCCESS'"></span>
+        <span class="ui-icon-warn checker" v-show="store['mobileLeaderStatus'] === 'WARN'"></span>
       </label>
-      <label class="ui-cell" v-if="store['matchType'] === 'leader' || mobileLeaderStatus === 'SUCCESS'">
+      <label class="ui-cell" v-if="store['matchType'] === 'leader' || store['mobileLeaderStatus'] === 'SUCCESS'">
         <span class="ui-cell-key">团队名称</span>
         <input class="ui-cell-value" type="text" v-model="store['teamName']" :placeholder="store['matchType'] === 'member' ? '请确定队长手机号' : '请输入'" :readonly="store['matchType'] === 'member'" maxlength="20">
       </label>
@@ -41,7 +41,7 @@
       <label class="ui-cell">
         <span class="ui-cell-key">验证码</span>
         <input class="ui-cell-value" type="tel" placeholder="请输入" v-model="store['mobileCode']">
-        <button class="ui-cell-control" :class="{ 'ui-cell-control-disabled': mobileTimer }" @click="getAuthCode">{{ mobileTimer ? '再次获取(' + mobileCounter + ')' : mobileCounter === 0 ? '重新获取' : '获取验证码' }}</button>
+        <button class="ui-cell-control" :class="{ 'ui-cell-control-disabled': store['mobileTimer'] }" @click="getAuthCode">{{ store['mobileTimer'] ? '再次获取(' + store['mobileCounter'] + ')' : store['mobileCounter'] === 0 ? '重新获取' : '获取验证码' }}</button>
       </label>
       <label class="ui-cell">
         <span class="ui-cell-key">常用邮箱</span>
@@ -53,13 +53,6 @@
 </template>
 <script>
   export default {
-    data () {
-      return {
-        mobileLeaderStatus: null,
-        mobileCounter: null,
-        mobileTimer: null
-      }
-    },
     computed: {
       store () {
         return this.$store.state
@@ -73,44 +66,44 @@
     },
     watch: {
       matchType () {
-        this.store['teamName'] = null
+        // this.store['teamName'] = null
         this.store['mobileLeader'] = null
-        this.mobileLeaderStatus = null
+        this.store['mobileLeaderStatus'] = null
       },
       mobileLeader () {
-        if (this.mobileLeaderStatus) {
+        if (this.store['mobileLeaderStatus']) {
           this.store['teamName'] = null
-          this.mobileLeaderStatus = null
+          this.store['mobileLeaderStatus'] = null
         }
       }
     },
     methods: {
       getTeamName () {
         if (this.$tools.validate['phone'].test(this.store['mobileLeader'])) {
-          this.mobileLeaderStatus = 'CHECKING'
+          this.store['mobileLeaderStatus'] = 'CHECKING'
           this.$tools.api.post('/bluemoon-control/schoolMatch/getTeamByLeader', { 'mobileNo': this.store['mobileLeader'] }).then(res => {
-            if (this.mobileLeaderStatus === 'CHECKING') {
-              this.mobileLeaderStatus = 'SUCCESS'
+            if (this.store['mobileLeaderStatus'] === 'CHECKING') {
+              this.store['mobileLeaderStatus'] = 'SUCCESS'
               this.store['teamName'] = res['teamName']
               this.store['teamId'] = res['teamId']
               Object.assign(this.store, res['schoolInfo'])
             }
           }).catch(() => {
-            this.mobileLeaderStatus = 'WARN'
+            this.store['mobileLeaderStatus'] = 'WARN'
           })
         } else {
           this.$toast('请确定队长手机')
         }
       },
       getAuthCode () {
-        if (!this.mobileTimer) {
+        if (!this.store['mobileTimer']) {
           if (this.$tools.validate['phone'].test(this.store['mobile'])) {
             let counter = (seconds) => {
-              this.mobileCounter = seconds
-              this.mobileTimer = setInterval(() => {
-                if (--this.mobileCounter === 0) {
-                  clearTimeout(this.mobileTimer)
-                  this.mobileTimer = null
+              this.store['mobileCounter'] = seconds
+              this.store['mobileTimer'] = setInterval(() => {
+                if (--this.store['mobileCounter'] === 0) {
+                  clearTimeout(this.store['mobileTimer'])
+                  this.store['mobileTimer'] = null
                 }
               }, 1000)
             }
@@ -119,8 +112,8 @@
               if (res['responseCode'] === 2203) {
                 counter(res['time'])
               } else {
-                clearTimeout(this.mobileTimer)
-                this.mobileTimer = null
+                clearTimeout(this.store['mobileTimer'])
+                this.store['mobileTimer'] = null
               }
             })
           } else {

@@ -20,7 +20,7 @@
           }).then(res => {
             this.$indicator.close()
             this.store['photoPath'] = res['path']
-            this.$router.back()
+            // this.$router.back()
           })
         }, { canvas: true })
       }
@@ -37,6 +37,7 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
+    background-color: #fff;
   }
   .upload {
     text-align: center;

@@ -24,7 +24,10 @@ export default new Vuex.Store({
     'matchType': null, // 参赛身份 string leader-队长 member-队员，必填
     'mobileCode': null, // 个人手机验证码 内部接口需要
     'mobile': null, // 手机号码 string 必填
+    'mobileCounter': null, // 手机验证码查询倒计时 内部接口需要
+    'mobileTimer': null, // 手机验证码查询定时器 内部接口需要
     'mobileLeader': null, // 队长手机 内部接口需要
+    'mobileLeaderStatus': null, // 队长手机查询状态 内部接口需要
     'personName': null, // 姓名 string 必填
     'photoPath': null, // 图片相对路径 string 必填
     'schoolCode': null, // 学校编码 string 必填

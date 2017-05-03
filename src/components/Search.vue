@@ -84,6 +84,10 @@
         this.store['schoolName'] = item['schoolName']
         this.$router.back()
       }
+    },
+    created () {
+      this.actived = !!this.store['schoolName']
+      this.value = this.store['schoolName']
     }
   }
 </script>
@@ -163,6 +167,7 @@
     width: 50px;
     color: #3B99EC;
     display: none;
+    padding: 0;
   }
   .@{WIDGET_NAME}-result {
     display: block;

@@ -11,7 +11,7 @@
     <section class="m_form">
       <label class="ui-cell">
         <span class="ui-cell-key">学校名称</span>
-        <router-link class="ui-cell-value-link" to="/search" tag="label" :class="{ 'ui-cell-value-invalid': !store['schoolName'] }">{{ store['schoolName'] || '请选择' }}</router-link>
+        <router-link class="ui-cell-value-link" to="/search" tag="label" :class="{ 'ui-cell-value-invalid': !store['schoolName'] }">{{ (store['schoolName'] && store['cuProvinceName'] + store['cuCityName'] + store['schoolName']) || '请选择' }}</router-link>
       </label>
       <label class="ui-cell">
         <span class="ui-cell-key">院系名称</span>
