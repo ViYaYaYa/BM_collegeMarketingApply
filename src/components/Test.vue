@@ -20,8 +20,10 @@
           console.log(res)
           document.body.appendChild(res)
         }, {
-          maxWidth: 100,
-          maxHeight: 50
+          canvas: true,
+          maxWidth: 200,
+          maxHeight: 200,
+          sourceHeight: 3300
         })
       }
     }
