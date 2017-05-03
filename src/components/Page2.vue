@@ -33,7 +33,7 @@
       </label>
       <label class="ui-cell">
         <span class="ui-cell-key">入学年月</span>
-        <span class="ui-cell-value-link" @click="$refs.picker.open()" :class="{ 'ui-cell-value-invalid': !store['enterDate'] }">{{ store['enterDate'] ? enterDateObj.getFullYear() + '-' + (+enterDateObj.getMonth() + 1) : '请选择' }}</span>
+        <span class="ui-cell-value-link" @click="$refs.picker.open()" :class="{ 'ui-cell-value-invalid': !store['enterDate'] }">{{ store['enterDate'] ? enterDateObj.getFullYear() + '.' + (enterDateObj.getMonth() < 9 ? '0' : '') + (+enterDateObj.getMonth() + 1) : '请选择' }}</span>
       </label>
     </section>
     <mt-datetime-picker class="ui-picker-onlymonth" ref="picker" type="date" v-model="enterDate" @confirm="store['enterDate'] = +enterDate" :endDate="new Date()"></mt-datetime-picker>
