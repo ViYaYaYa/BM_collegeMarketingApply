@@ -53,6 +53,19 @@
 </template>
 <script>
   export default {
+    data () {
+      return {
+        matchType: null,
+        mobileLeader: null,
+        mobileLeaderStatus: null,
+        teamName: null,
+        mobile: null,
+        mobileCode: null,
+        mobileTimer: null,
+        mobileCounter: null,
+        email: null
+      }
+    },
     computed: {
       store () {
         return this.$store.state
