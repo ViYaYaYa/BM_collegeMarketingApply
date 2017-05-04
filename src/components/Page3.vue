@@ -99,7 +99,8 @@
         }, {
           canvas: true,
           maxWidth: 500,
-          maxHeight: 500
+          maxHeight: 500,
+          orientation: true
         })
       },
       submit () {
