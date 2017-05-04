@@ -60,7 +60,7 @@
         <label class="ui-cell-value file" :class="{ 'ui-cell-value-invalid': !store['photoPath'], 'file-valid': store['photoPath'] }">半身清晰免冠照({{ store['photoPath'] ? '已' : '未' }}上传)<input type="file" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0;" @click="viewImage" @change="upload" accept="image/*"></label>
       </label>
     </section>
-    <button class="ui-btn c_submit" @click="submit" :disabled="store['_SUBMIT_ALREADY']">提 交</button>
+    <button class="ui-btn c_submit" @click="submit">提 交</button>
   </section>
 </template>
 <script>
