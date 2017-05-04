@@ -50,12 +50,15 @@
             content: this.value,
             pageIndex: 0,
             pageSize: this.pageSize
+          }, {
+            '_indicator': true
           }).then(res => {
             this.pageIndex = 1
             this.result = res['schoolList']
-            this.status = res['schoolList'].length >= this.pageSize ? null : 'NOMORE'
+            this.status = res['schoolList'].length === this.pageSize ? null : res['schoolList'].length === 0 ? 'NOTHING' : 'NOMORE'
           }).catch(err => {
-            if (err['responseCode'] === 2201) {
+            if (err['responseCode'] === 2231) {
+              this.result = []
               this.status = 'NOTHING'
             }
           })

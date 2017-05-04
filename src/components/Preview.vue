@@ -17,10 +17,14 @@
           let base64 = canvas.toDataURL()
           this.$tools.api.post('/bluemoon-control/schoolMatch/uploadImg', {
             'imgInfo': base64.substring(22)
+          }, {
+            '_indicator': true,
+            'timeout': 30000
           }).then(res => {
-            this.$indicator.close()
             this.store['photoPath'] = res['path']
             // this.$router.back()
+          }).catch(() => {
+            ev.target.value = null
           })
         }, {
           canvas: true,

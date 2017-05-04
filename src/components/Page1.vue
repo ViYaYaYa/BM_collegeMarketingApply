@@ -92,7 +92,7 @@
             this.store['mobileLeaderStatus'] = 'WARN'
           })
         } else {
-          this.$toast('请确定队长手机')
+          this.$toast('请正确填写11位手机号')
         }
       },
       getAuthCode () {
@@ -107,8 +107,13 @@
                 }
               }, 1000)
             }
-            counter(120)
-            this.$tools.api.post('/bluemoon-control/schoolMatch/getVerifyCode', { 'mobileNo': this.store['mobile'] }).catch(res => {
+            this.$tools.api.post('/bluemoon-control/schoolMatch/getVerifyCode', {
+              'mobileNo': this.store['mobile']
+            }, {
+              '_indicator': true
+            }).then(() => {
+              counter(120)
+            }).catch(res => {
               if (res['responseCode'] === 2203) {
                 counter(res['time'])
               } else {
@@ -117,7 +122,7 @@
               }
             })
           } else {
-            this.$toast('请确定个人手机')
+            this.$toast('请正确填写11位手机号')
           }
         }
       },
@@ -125,12 +130,12 @@
         if (this.store['matchType']) {
           if (this.store['matchType'] === 'leader') {
             if (!this.store['teamName']) {
-              return this.$toast('请确定团队名称')
+              return this.$toast('请完善团队名称')
             }
           }
           if (this.store['matchType'] === 'member') {
             if (this.store['mobileLeaderStatus'] !== 'SUCCESS' && !this.store['teamName']) {
-              return this.$toast('请确定队长手机')
+              return this.$toast('请完善队长手机')
             }
           }
           if (!this.$tools.validate['phone'].test(this.store['mobile'])) {
@@ -140,7 +145,7 @@
             return this.$toast('请确认验证码')
           }
           if (!this.$tools.validate['email'].test(this.store['email'])) {
-            return this.$toast('请确认常用邮箱')
+            return this.$toast('请正确填写邮箱地址')
           }
           this.$tools.api.post('/bluemoon-control/schoolMatch/checkVerifyCode', {
             'matchType': this.store['matchType'],
@@ -148,6 +153,8 @@
             'schoolCode': this.store['matchType'] === 'member' ? this.store['schoolCode'] : '',
             'teamName': this.store['matchType'] === 'member' ? this.store['teamName'] : '',
             'verifyCode': this.store['mobileCode']
+          }, {
+            '_indicator': true
           }).then(res => {
             this.$router.push('page2')
           })
@@ -156,7 +163,7 @@
           //   this.$router.push('page2')
           // }
         } else {
-          return this.$toast('请确定参赛身份')
+          return this.$toast('请完善参赛身份')
         }
       }
     }

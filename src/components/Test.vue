@@ -18,9 +18,12 @@
       testJavascriptLoadImage (ev) {
         let file = ev.target.files[0]
         this.$tools.loadImage.parseMetaData(file, (data) => {
-          console.log(data.exif)
-          let b = new Blob([data.imageHead, this.$tools.loadImage.blobSlice.call(file, 20)], { type: 'image/jpg' })
-          console.log(b)
+          // console.log(data.exif.getAll())
+          console.log(data)
+        }, {
+          maxMetaDataSize: 200000,
+          disableImageHead: false,
+          disableExifThumbnail: true
         })
       }
     }

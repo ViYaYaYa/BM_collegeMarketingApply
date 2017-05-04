@@ -53,14 +53,14 @@
       </label>
       <label class="ui-cell">
         <span class="ui-cell-key">籍贯</span>
-        <input class="ui-cell-value-link" type="text" placeholder="请选择" ref="place" readonly :value="(store['jgProvinceName'] || '') + (store['jgCityName'] || '')">
+        <span class="ui-cell-value-link" ref="place" :class="{ 'ui-cell-value-invalid': !store['jgCityName'] }">{{ store['jgCityName'] ? store['jgProvinceName'] + store['jgCityName'] : '请选择' }}</span>
       </label>
       <label class="ui-cell">
         <span class="ui-cell-key">个人照</span>
         <label class="ui-cell-value file" :class="{ 'ui-cell-value-invalid': !store['photoPath'], 'file-valid': store['photoPath'] }">半身清晰免冠照({{ store['photoPath'] ? '已' : '未' }}上传)<input type="file" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0;" @click="viewImage" @change="upload" accept="image/*"></label>
       </label>
     </section>
-    <button class="ui-btn c_submit" @click="submit">提 交</button>
+    <button class="ui-btn c_submit" @click="submit" :disabled="store['_SUBMIT_ALREADY']">提 交</button>
   </section>
 </template>
 <script>
@@ -88,9 +88,13 @@
           let base64 = canvas.toDataURL()
           this.$tools.api.post('/bluemoon-control/schoolMatch/uploadImg', {
             'imgInfo': base64.substring(22)
+          }, {
+            '_indicator': true,
+            'timeout': 30000
           }).then(res => {
-            this.$indicator.close()
             this.store['photoPath'] = res['path']
+          }).catch(() => {
+            ev.target.value = null
           })
         }, {
           canvas: true,
@@ -100,21 +104,20 @@
       },
       submit () {
         if (!this.store['personName']) {
-          return this.$toast('请确定姓名')
+          return this.$toast('请完善姓名')
         }
         if (!this.store['gender']) {
-          return this.$toast('请确定性别')
+          return this.$toast('请完善性别')
         }
         if (!this.$tools.validate['idcardValidator'].isValid(this.store['idcard'])) {
-          return this.$toast('请确定身份证号')
+          return this.$toast('身份证号格式不正确，请重新填写哦！')
         }
         if (!this.store['jgCityCode']) {
-          return this.$toast('请确定籍贯')
+          return this.$toast('请完善籍贯')
         }
         if (!this.store['photoPath']) {
-          return this.$toast('请确定个人照')
+          return this.$toast('请完善个人照')
         }
-        this.$indicator.open()
         this.$tools.api.post('/bluemoon-control/schoolMatch/saveApplyInfo', {
           'blood': this.store['blood'] || 'NONE',
           'college': this.store['college'],
@@ -140,8 +143,10 @@
           'schoolName': this.store['schoolName'],
           'teamId': this.store['teamId'],
           'teamName': this.store['teamName']
+        }, {
+          '_indicator': true
         }).then(res => {
-          this.$indicator.close()
+          this.store['_SUBMIT_ALREADY'] = true
           this.$router.push('/finish')
         }).catch(() => {
           this.$indicator.close()
@@ -226,5 +231,8 @@
     width: 100%;
     height: 50px;
     color: #fff;
+    &:disabled {
+      background-color: #d7d7d7;
+    }
   }
 </style>
