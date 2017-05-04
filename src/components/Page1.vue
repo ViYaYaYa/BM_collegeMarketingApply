@@ -13,39 +13,39 @@
         <span class="ui-cell-key">参赛身份</span>
         <div class="ui-cell-value">
           <label class="ui-radio-label">
-            <input class="ui-radio-control" type="radio" value="leader" v-model="store['matchType']">
+            <input class="ui-radio-control" type="radio" value="leader" v-model="matchType">
             <span class="ui-radio"></span><span>队长</span>
           </label>
           <label class="ui-radio-label">
-            <input class="ui-radio-control" type="radio" value="member" v-model="store['matchType']">
+            <input class="ui-radio-control" type="radio" value="member" v-model="matchType">
             <span class="ui-radio"></span><span>队员</span>
           </label>
         </div>
       </label>
-      <label v-if="store['matchType'] === 'member'" class="ui-cell">
+      <label v-if="matchType === 'member'" class="ui-cell">
         <span class="ui-cell-key">队长手机</span>
-        <input class="ui-cell-value" type="tel" placeholder="请输入" maxlength="11" v-model="store['mobileLeader']">
-        <button class="ui-cell-control" @click="getTeamName" v-show="!store['mobileLeaderStatus']">确 定</button>
-        <span class="ui-spinner checker" v-show="store['mobileLeaderStatus'] === 'CHECKING'"></span>
-        <span class="ui-icon-success checker" v-show="store['mobileLeaderStatus'] === 'SUCCESS'"></span>
-        <span class="ui-icon-warn checker" v-show="store['mobileLeaderStatus'] === 'WARN'"></span>
+        <input class="ui-cell-value" type="tel" placeholder="请输入" maxlength="11" v-model="mobileLeader">
+        <button class="ui-cell-control" @click="getTeamName" v-show="!mobileLeaderStatus">确 定</button>
+        <span class="ui-spinner checker" v-show="mobileLeaderStatus === 'CHECKING'"></span>
+        <span class="ui-icon-success checker" v-show="mobileLeaderStatus === 'SUCCESS'"></span>
+        <span class="ui-icon-warn checker" v-show="mobileLeaderStatus === 'WARN'"></span>
       </label>
-      <label class="ui-cell" v-if="store['matchType'] === 'leader' || store['mobileLeaderStatus'] === 'SUCCESS'">
+      <label class="ui-cell" v-if="matchType === 'leader' || mobileLeaderStatus === 'SUCCESS'">
         <span class="ui-cell-key">团队名称</span>
-        <input class="ui-cell-value" type="text" v-model="store['teamName']" :placeholder="store['matchType'] === 'member' ? '请确定队长手机号' : '请输入'" :readonly="store['matchType'] === 'member'" maxlength="20">
+        <input class="ui-cell-value" type="text" v-model="teamName" :placeholder="matchType === 'member' ? '请确定队长手机号' : '请输入'" :readonly="matchType === 'member'" maxlength="20">
       </label>
       <label class="ui-cell">
         <span class="ui-cell-key">个人手机</span>
-        <input class="ui-cell-value" type="tel" placeholder="请输入" v-model="store['mobile']" maxlength="11">
+        <input class="ui-cell-value" type="tel" placeholder="请输入" v-model="mobile" maxlength="11">
       </label>
       <label class="ui-cell">
         <span class="ui-cell-key">验证码</span>
-        <input class="ui-cell-value" type="tel" placeholder="请输入" v-model="store['mobileCode']">
-        <button class="ui-cell-control" :class="{ 'ui-cell-control-disabled': store['mobileTimer'] }" @click="getAuthCode">{{ store['mobileTimer'] ? '再次获取(' + store['mobileCounter'] + ')' : store['mobileCounter'] === 0 ? '重新获取' : '获取验证码' }}</button>
+        <input class="ui-cell-value" type="tel" placeholder="请输入" v-model="mobileCode">
+        <button class="ui-cell-control" :class="{ 'ui-cell-control-disabled': mobileTimer }" @click="getAuthCode">{{ mobileTimer ? '再次获取(' + mobileCounter + ')' : mobileCounter === 0 ? '重新获取' : '获取验证码' }}</button>
       </label>
       <label class="ui-cell">
         <span class="ui-cell-key">常用邮箱</span>
-        <input class="ui-cell-value" type="text" placeholder="请输入" v-model="store['email']">
+        <input class="ui-cell-value" type="text" placeholder="请输入" v-model="email">
       </label>
     </section>
     <button class="ui-btn c_submit" @click="submit">下一步</button>
@@ -63,65 +63,63 @@
         mobileCode: null,
         mobileTimer: null,
         mobileCounter: null,
-        email: null
-      }
-    },
-    computed: {
-      store () {
-        return this.$store.state
-      },
-      matchType () {
-        return this.$store.state['matchType']
-      },
-      mobileLeader () {
-        return this.$store.state['mobileLeader']
+        email: null,
+        college: null,
+        cuCityCode: null,
+        cuCityName: null,
+        cuProvinceCode: null,
+        cuProvinceName: null,
+        enterDate: null,
+        gradEducation: null,
+        major: null,
+        schoolCode: null,
+        schoolName: null
       }
     },
     watch: {
       matchType () {
-        // this.store['teamName'] = null
-        this.store['mobileLeader'] = null
-        this.store['mobileLeaderStatus'] = null
+        this.mobileLeader = null
+        this.mobileLeaderStatus = null
       },
       mobileLeader () {
-        if (this.store['mobileLeaderStatus']) {
-          this.store['teamName'] = null
-          this.store['mobileLeaderStatus'] = null
+        if (this.mobileLeaderStatus) {
+          this.teamName = null
+          this.mobileLeaderStatus = null
         }
       }
     },
     methods: {
       getTeamName () {
-        if (this.$tools.validate['phone'].test(this.store['mobileLeader'])) {
-          this.store['mobileLeaderStatus'] = 'CHECKING'
-          this.$tools.api.post('/bluemoon-control/schoolMatch/getTeamByLeader', { 'mobileNo': this.store['mobileLeader'] }).then(res => {
-            if (this.store['mobileLeaderStatus'] === 'CHECKING') {
-              this.store['mobileLeaderStatus'] = 'SUCCESS'
-              this.store['teamName'] = res['teamName']
-              this.store['teamId'] = res['teamId']
-              Object.assign(this.store, res['schoolInfo'])
+        if (this.$tools.validate['phone'].test(this.mobileLeader)) {
+          this.mobileLeaderStatus = 'CHECKING'
+          this.$tools.api.post('/bluemoon-control/schoolMatch/getTeamByLeader', { 'mobileNo': this.mobileLeader }).then(res => {
+            if (this.mobileLeaderStatus === 'CHECKING') {
+              this.mobileLeaderStatus = 'SUCCESS'
+              this.teamName = res['teamName']
+              this.teamId = res['teamId']
+              Object.assign(this.$data, res['schoolInfo'])
             }
           }).catch(() => {
-            this.store['mobileLeaderStatus'] = 'WARN'
+            this.mobileLeaderStatus = 'WARN'
           })
         } else {
           this.$toast('请正确填写11位手机号')
         }
       },
       getAuthCode () {
-        if (!this.store['mobileTimer']) {
-          if (this.$tools.validate['phone'].test(this.store['mobile'])) {
+        if (!this.mobileTimer) {
+          if (this.$tools.validate['phone'].test(this.mobile)) {
             let counter = (seconds) => {
-              this.store['mobileCounter'] = seconds
-              this.store['mobileTimer'] = setInterval(() => {
-                if (--this.store['mobileCounter'] === 0) {
-                  clearTimeout(this.store['mobileTimer'])
-                  this.store['mobileTimer'] = null
+              this.mobileCounter = seconds
+              this.mobileTimer = setInterval(() => {
+                if (--this.mobileCounter === 0) {
+                  clearTimeout(this.mobileTimer)
+                  this.mobileTimer = null
                 }
               }, 1000)
             }
             this.$tools.api.post('/bluemoon-control/schoolMatch/getVerifyCode', {
-              'mobileNo': this.store['mobile']
+              'mobileNo': this.mobile
             }, {
               '_indicator': true
             }).then(() => {
@@ -130,8 +128,8 @@
               if (res['responseCode'] === 2203) {
                 counter(res['time'])
               } else {
-                clearTimeout(this.store['mobileTimer'])
-                this.store['mobileTimer'] = null
+                clearTimeout(this.mobileTimer)
+                this.mobileTimer = null
               }
             })
           } else {
@@ -140,45 +138,47 @@
         }
       },
       submit () {
-        if (this.store['matchType']) {
-          if (this.store['matchType'] === 'leader') {
-            if (!this.store['teamName']) {
+        if (this.matchType) {
+          if (this.matchType === 'leader') {
+            if (!this.teamName) {
               return this.$toast('请完善团队名称')
             }
           }
-          if (this.store['matchType'] === 'member') {
-            if (this.store['mobileLeaderStatus'] !== 'SUCCESS' && !this.store['teamName']) {
+          if (this.matchType === 'member') {
+            if (this.mobileLeaderStatus !== 'SUCCESS' && !this.teamName) {
               return this.$toast('请完善队长手机')
             }
           }
-          if (!this.$tools.validate['phone'].test(this.store['mobile'])) {
+          if (!this.$tools.validate['phone'].test(this.mobile)) {
             return this.$toast('请确认个人手机')
           }
-          if (!this.store['mobileCode']) {
+          if (!this.mobileCode) {
             return this.$toast('请确认验证码')
           }
-          if (!this.$tools.validate['email'].test(this.store['email'])) {
+          if (!this.$tools.validate['email'].test(this.email)) {
             return this.$toast('请正确填写邮箱地址')
           }
           this.$tools.api.post('/bluemoon-control/schoolMatch/checkVerifyCode', {
-            'matchType': this.store['matchType'],
-            'mobileNo': this.store['mobile'],
-            'schoolCode': this.store['matchType'] === 'member' ? this.store['schoolCode'] : '',
-            'teamName': this.store['matchType'] === 'member' ? this.store['teamName'] : '',
-            'verifyCode': this.store['mobileCode']
+            'matchType': this.matchType,
+            'mobileNo': this.mobile,
+            'schoolCode': this.matchType === 'member' ? this.schoolCode : '',
+            'teamName': this.matchType === 'member' ? this.teamName : '',
+            'verifyCode': this.mobileCode
           }, {
             '_indicator': true
           }).then(res => {
+            Object.assign(this.$store.state, this.$data)
             this.$router.push('page2')
           })
-          // if (process.env.CODE_ENV === 'development') {
-          //   this.$toast('目前处于测试环境，即使验证码不正确也能跳转')
-          //   this.$router.push('page2')
-          // }
+          Object.assign(this.$store.state, this.$data)
+          this.$router.push('page2')
         } else {
           return this.$toast('请完善参赛身份')
         }
       }
+    },
+    created () {
+      Object.assign(this.$data, this.$store.state)
     }
   }
 </script>

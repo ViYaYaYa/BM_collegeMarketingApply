@@ -149,8 +149,6 @@
         }).then(res => {
           this.store['_SUBMIT_ALREADY'] = true
           this.$router.push('/finish')
-        }).catch(() => {
-          this.$indicator.close()
         })
       }
     },
