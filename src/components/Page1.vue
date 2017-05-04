@@ -80,6 +80,16 @@
       matchType () {
         this.mobileLeader = null
         this.mobileLeaderStatus = null
+        this.college = null
+        this.cuCityCode = null
+        this.cuCityName = null
+        this.cuProvinceCode = null
+        this.cuProvinceName = null
+        this.enterDate = null
+        this.gradEducation = null
+        this.major = null
+        this.schoolCode = null
+        this.schoolName = null
       },
       mobileLeader () {
         if (this.mobileLeaderStatus) {
@@ -97,7 +107,16 @@
               this.mobileLeaderStatus = 'SUCCESS'
               this.teamName = res['teamName']
               this.teamId = res['teamId']
-              Object.assign(this.$data, res['schoolInfo'])
+              this.college = res['schoolInfo']['college']
+              this.cuCityCode = res['schoolInfo']['cuCityCode']
+              this.cuCityName = res['schoolInfo']['cuCityName']
+              this.cuProvinceCode = res['schoolInfo']['cuProvinceCode']
+              this.cuProvinceName = res['schoolInfo']['cuProvinceName']
+              this.enterDate = res['schoolInfo']['enterDate']
+              this.gradEducation = res['schoolInfo']['gradEducation']
+              this.major = res['schoolInfo']['major']
+              this.schoolCode = res['schoolInfo']['schoolCode']
+              this.schoolName = res['schoolInfo']['schoolName']
             }
           }).catch(() => {
             this.mobileLeaderStatus = 'WARN'
@@ -167,18 +186,52 @@
           }, {
             '_indicator': true
           }).then(res => {
-            Object.assign(this.$store.state, this.$data)
+            this.$store.state['matchType'] = this.matchType
+            this.$store.state['mobileLeader'] = this.mobileLeader
+            this.$store.state['mobileLeaderStatus'] = this.mobileLeaderStatus
+            this.$store.state['teamName'] = this.teamName
+            this.$store.state['mobile'] = this.mobile
+            this.$store.state['mobileCode'] = this.mobileCode
+            this.$store.state['mobileTimer'] = this.mobileTimer
+            this.$store.state['mobileCounter'] = this.mobileCounter
+            this.$store.state['email'] = this.email
+            this.$store.state['college'] = this.college
+            this.$store.state['cuCityCode'] = this.cuCityCode
+            this.$store.state['cuCityName'] = this.cuCityName
+            this.$store.state['cuProvinceCode'] = this.cuProvinceCode
+            this.$store.state['cuProvinceName'] = this.cuProvinceName
+            this.$store.state['enterDate'] = this.enterDate
+            this.$store.state['gradEducation'] = this.gradEducation
+            this.$store.state['major'] = this.major
+            this.$store.state['schoolCode'] = this.schoolCode
+            this.$store.state['schoolName'] = this.schoolName
             this.$router.push('page2')
           })
-          Object.assign(this.$store.state, this.$data)
-          this.$router.push('page2')
         } else {
           return this.$toast('请完善参赛身份')
         }
       }
     },
     created () {
-      Object.assign(this.$data, this.$store.state)
+      this.matchType = this.$store.state['matchType']
+      this.mobileLeader = this.$store.state['mobileLeader']
+      this.mobileLeaderStatus = this.$store.state['mobileLeaderStatus']
+      this.teamName = this.$store.state['teamName']
+      this.mobile = this.$store.state['mobile']
+      this.mobileCode = this.$store.state['mobileCode']
+      this.mobileTimer = this.$store.state['mobileTimer']
+      this.mobileCounter = this.$store.state['mobileCounter']
+      this.email = this.$store.state['email']
+      this.college = this.$store.state['college']
+      this.cuCityCode = this.$store.state['cuCityCode']
+      this.cuCityName = this.$store.state['cuCityName']
+      this.cuProvinceCode = this.$store.state['cuProvinceCode']
+      this.cuProvinceName = this.$store.state['cuProvinceName']
+      this.enterDate = this.$store.state['enterDate']
+      this.gradEducation = this.$store.state['gradEducation']
+      this.major = this.$store.state['major']
+      this.schoolCode = this.$store.state['schoolCode']
+      this.schoolName = this.$store.state['schoolName']
     }
   }
 </script>
