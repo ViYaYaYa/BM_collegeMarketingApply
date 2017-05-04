@@ -16,14 +16,11 @@
   export default {
     methods: {
       testJavascriptLoadImage (ev) {
-        this.$tools.loadImage(ev.target.files[0], res => {
-          console.log(res)
-          document.body.appendChild(res)
-        }, {
-          canvas: true,
-          maxWidth: 200,
-          maxHeight: 200,
-          sourceHeight: 3300
+        let file = ev.target.files[0]
+        this.$tools.loadImage.parseMetaData(file, (data) => {
+          console.log(data.exif)
+          let b = new Blob([data.imageHead, this.$tools.loadImage.blobSlice.call(file, 20)], { type: 'image/jpg' })
+          console.log(b)
         })
       }
     }
@@ -33,6 +30,7 @@
   .m_test {
     color: #000;
   }
+
   .c_block {
     border: 1px solid red;
   }

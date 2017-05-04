@@ -24,7 +24,7 @@
       </label>
       <label v-if="store['matchType'] === 'member'" class="ui-cell">
         <span class="ui-cell-key">队长手机</span>
-        <input class="ui-cell-value" type="text" placeholder="请输入" maxlength="11" v-model="store['mobileLeader']">
+        <input class="ui-cell-value" type="tel" placeholder="请输入" maxlength="11" v-model="store['mobileLeader']">
         <button class="ui-cell-control" @click="getTeamName" v-show="!store['mobileLeaderStatus']">确 定</button>
         <span class="ui-spinner checker" v-show="store['mobileLeaderStatus'] === 'CHECKING'"></span>
         <span class="ui-icon-success checker" v-show="store['mobileLeaderStatus'] === 'SUCCESS'"></span>
