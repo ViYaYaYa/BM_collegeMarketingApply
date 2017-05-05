@@ -153,8 +153,9 @@
           this.store['schoolCode'] = null
           this.store['schoolName'] = null
         }
-        this.$tools.validate['checkBeforeSubmit']['page1'].call(null, this).then(() => {
-          this.store['_CHECK_BEFORE_SUBMIT_SUCCESS'] = true
+        this.store['_CHECK_BEFORE_SUBMIT_SUCCESS'] = true
+        this.$tools.validate['checkBeforeSubmit']['page1'].call(null, this).catch(() => {
+          this.store['_CHECK_BEFORE_SUBMIT_SUCCESS'] = false
         })
       }
     },

@@ -104,8 +104,9 @@
         })
       },
       submit () {
-        this.$tools.validate['checkBeforeSubmit']['page3'].call(null, this).then(() => {
-          this.store['_CHECK_BEFORE_SUBMIT_SUCCESS'] = true
+        this.store['_CHECK_BEFORE_SUBMIT_SUCCESS'] = true
+        this.$tools.validate['checkBeforeSubmit']['page3'].call(null, this).catch(() => {
+          this.store['_CHECK_BEFORE_SUBMIT_SUCCESS'] = false
         })
       }
     },
