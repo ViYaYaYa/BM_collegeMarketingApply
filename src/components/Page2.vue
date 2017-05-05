@@ -11,7 +11,7 @@
     <section class="m_form">
       <label class="ui-cell">
         <span class="ui-cell-key">学校名称</span>
-        <router-link class="ui-cell-value-link" to="/search" tag="label" :class="{ 'ui-cell-value-invalid': !schoolName }">{{ (schoolName && cuProvinceName + cuCityName + schoolName) || '请选择' }}</router-link>
+        <span class="ui-cell-value-link" @click="goSearch" :class="{ 'ui-cell-value-invalid': !schoolName }">{{ (schoolName && cuProvinceName + cuCityName + schoolName) || '请选择' }}</span>
       </label>
       <label class="ui-cell">
         <span class="ui-cell-key">院系名称</span>
@@ -55,6 +55,13 @@
       }
     },
     methods: {
+      goSearch () {
+        this.$store.state['college'] = this.college
+        this.$store.state['major'] = this.major
+        this.$store.state['gradEducation'] = this.gradEducation
+        this.$store.state['enterDate'] = this.enterDate
+        this.$router.push('/search')
+      },
       submit () {
         if (!this.schoolName) {
           return this.$toast('请完善学校名称')

@@ -41,7 +41,7 @@
       <label class="ui-cell">
         <span class="ui-cell-key">验证码</span>
         <input class="ui-cell-value" type="tel" placeholder="请输入" v-model="mobileCode">
-        <button class="ui-cell-control" :class="{ 'ui-cell-control-disabled': mobileTimer }" @click="getAuthCode">{{ mobileTimer ? '再次获取(' + mobileCounter + ')' : mobileCounter === 0 ? '重新获取' : '获取验证码' }}</button>
+        <button class="ui-cell-control" :class="{ 'ui-cell-control-disabled': $store.state['mobileTimer'] }" @click="getAuthCode">{{ $store.state['mobileTimer'] ? '再次获取(' + $store.state['mobileCounter'] + ')' : $store.state['mobileCounter'] === 0 ? '重新获取' : '获取验证码' }}</button>
       </label>
       <label class="ui-cell">
         <span class="ui-cell-key">常用邮箱</span>
@@ -61,8 +61,6 @@
         teamName: null,
         mobile: null,
         mobileCode: null,
-        mobileTimer: null,
-        mobileCounter: null,
         email: null,
         college: null,
         cuCityCode: null,
@@ -128,14 +126,14 @@
         }
       },
       getAuthCode () {
-        if (!this.mobileTimer) {
+        if (!this.$store.state['mobileTimer']) {
           if (this.$tools.validate['phone'].test(this.mobile)) {
             let counter = (seconds) => {
-              this.mobileCounter = seconds
-              this.mobileTimer = setInterval(() => {
-                if (--this.mobileCounter === 0) {
-                  clearTimeout(this.mobileTimer)
-                  this.mobileTimer = null
+              this.$store.state['mobileCounter'] = seconds
+              this.$store.state['mobileTimer'] = setInterval(() => {
+                if (--this.$store.state['mobileCounter'] === 0) {
+                  clearTimeout(this.$store.state['mobileTimer'])
+                  this.$store.state['mobileTimer'] = null
                 }
               }, 1000)
             }
@@ -149,8 +147,8 @@
               if (res['responseCode'] === 2203) {
                 counter(res['time'])
               } else {
-                clearTimeout(this.mobileTimer)
-                this.mobileTimer = null
+                clearTimeout(this.$store.state['mobileTimer'])
+                this.$store.state['mobileTimer'] = null
               }
             })
           } else {
@@ -194,8 +192,6 @@
             this.$store.state['teamName'] = this.teamName
             this.$store.state['mobile'] = this.mobile
             this.$store.state['mobileCode'] = this.mobileCode
-            this.$store.state['mobileTimer'] = this.mobileTimer
-            this.$store.state['mobileCounter'] = this.mobileCounter
             this.$store.state['email'] = this.email
             if (this.matchType === 'member') {
               this.$store.state['college'] = this.college
@@ -223,8 +219,6 @@
       this.teamName = this.$store.state['teamName']
       this.mobile = this.$store.state['mobile']
       this.mobileCode = this.$store.state['mobileCode']
-      this.mobileTimer = this.$store.state['mobileTimer']
-      this.mobileCounter = this.$store.state['mobileCounter']
       this.email = this.$store.state['email']
       this.college = this.$store.state['college']
       this.cuCityCode = this.$store.state['cuCityCode']

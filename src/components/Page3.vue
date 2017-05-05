@@ -82,6 +82,15 @@
     methods: {
       viewImage (ev) {
         if (this.photoPath) {
+          this.$store.state['personName'] = this.personName
+          this.$store.state['gender'] = this.gender
+          this.$store.state['idcard'] = this.idcard
+          this.$store.state['blood'] = this.blood
+          this.$store.state['jgCityName'] = this.jgCityName
+          this.$store.state['jgCityCode'] = this.jgCityCode
+          this.$store.state['jgProvinceName'] = this.jgProvinceName
+          this.$store.state['jgProvinceCode'] = this.jgProvinceCode
+          this.$store.state['photoPath'] = this.photoPath
           this.$router.push('/preview')
           ev.preventDefault()
         }
