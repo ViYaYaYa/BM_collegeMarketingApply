@@ -107,7 +107,6 @@ export default {
       }, {
         '_indicator': true
       }).then(res => {
-        vue.$store.state['_SUBMIT_ALREADY'] = true
         vue.$router.push('/finish')
       }).catch(() => {
         vue.$indicator.close()

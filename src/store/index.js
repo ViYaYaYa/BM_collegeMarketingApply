@@ -5,7 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    '_SUBMIT_ALREADY': null, // 是否已经提交的标识 内部使用
+    '_CHECK_BEFORE_SUBMIT_SUCCESS': null, //
     'blood': null, // 血型 string 选填
     'college': null, // 院系名称 string 必填
     'cuCityCode': null, // 学校城市编码 string 必填
