@@ -34,9 +34,6 @@
       }
     },
     computed: {
-      store () {
-        return this.$store.state
-      },
       noscroll () {
         return this.status || !this.result || this.result.length === 0
       }
@@ -79,18 +76,18 @@
         })
       },
       choose (item) {
-        this.store['cuCityCode'] = item['cuCityCode']
-        this.store['cuCityName'] = item['cuCityName']
-        this.store['cuProvinceCode'] = item['cuProvinceCode']
-        this.store['cuProvinceName'] = item['cuProvinceName']
-        this.store['schoolCode'] = item['schoolCode']
-        this.store['schoolName'] = item['schoolName']
+        this.$store.state['cuCityCode'] = item['cuCityCode']
+        this.$store.state['cuCityName'] = item['cuCityName']
+        this.$store.state['cuProvinceCode'] = item['cuProvinceCode']
+        this.$store.state['cuProvinceName'] = item['cuProvinceName']
+        this.$store.state['schoolCode'] = item['schoolCode']
+        this.$store.state['schoolName'] = item['schoolName']
         this.$router.back()
       }
     },
     created () {
-      this.actived = !!this.store['schoolName']
-      this.value = this.store['schoolName']
+      this.actived = !!this.$store.state['schoolName']
+      this.value = this.$store.state['schoolName']
     }
   }
 </script>

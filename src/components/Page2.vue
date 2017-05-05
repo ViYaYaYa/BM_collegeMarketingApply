@@ -11,19 +11,19 @@
     <section class="m_form">
       <label class="ui-cell">
         <span class="ui-cell-key">学校名称</span>
-        <router-link class="ui-cell-value-link" to="/search" tag="label" :class="{ 'ui-cell-value-invalid': !store['schoolName'] }">{{ (store['schoolName'] && store['cuProvinceName'] + store['cuCityName'] + store['schoolName']) || '请选择' }}</router-link>
+        <router-link class="ui-cell-value-link" to="/search" tag="label" :class="{ 'ui-cell-value-invalid': !schoolName }">{{ (schoolName && cuProvinceName + cuCityName + schoolName) || '请选择' }}</router-link>
       </label>
       <label class="ui-cell">
         <span class="ui-cell-key">院系名称</span>
-        <input class="ui-cell-value" type="text" placeholder="请输入" v-model="store['college']" maxlength="20">
+        <input class="ui-cell-value" type="text" placeholder="请输入" v-model="college" maxlength="20">
       </label>
       <label class="ui-cell">
         <span class="ui-cell-key">专业名称</span>
-        <input class="ui-cell-value" type="text" placeholder="请输入" v-model="store['major']" maxlength="20">
+        <input class="ui-cell-value" type="text" placeholder="请输入" v-model="major" maxlength="20">
       </label>
       <label class="ui-cell">
         <span class="ui-cell-key">毕业学历</span>
-        <select class="ui-cell-value-link" required v-model="store['gradEducation']" dir="rtl" :class="{ 'ui-cell-value-invalid': !store['gradEducation'] }">
+        <select class="ui-cell-value-link" required v-model="gradEducation" dir="rtl" :class="{ 'ui-cell-value-invalid': !gradEducation }">
           <option value="null" disabled selected hidden>请选择</option>
           <option>博士</option>
           <option>硕士</option>
@@ -33,10 +33,10 @@
       </label>
       <label class="ui-cell">
         <span class="ui-cell-key">入学年月</span>
-        <span class="ui-cell-value-link" @click="$refs.picker.open()" :class="{ 'ui-cell-value-invalid': !store['enterDate'] }">{{ store['enterDate'] ? enterDateObj.getFullYear() + '.' + (enterDateObj.getMonth() < 9 ? '0' : '') + (+enterDateObj.getMonth() + 1) : '请选择' }}</span>
+        <span class="ui-cell-value-link" @click="$refs.picker.open()" :class="{ 'ui-cell-value-invalid': !enterDate }">{{ enterDate ? enterDate.getFullYear() + '.' + (enterDate.getMonth() < 9 ? '0' : '') + (+enterDate.getMonth() + 1) : '请选择' }}</span>
       </label>
     </section>
-    <mt-datetime-picker class="ui-picker-onlymonth" ref="picker" type="date" v-model="enterDate" @confirm="store['enterDate'] = +enterDate" :endDate="new Date()"></mt-datetime-picker>
+    <mt-datetime-picker class="ui-picker-onlymonth" ref="picker" type="date" v-model="enterDateControl" @confirm="enterDate = enterDateControl" :endDate="new Date()"></mt-datetime-picker>
     <button class="ui-btn c_submit" @click="submit">下一步</button>
   </section>
 </template>
@@ -44,48 +44,57 @@
   export default {
     data () {
       return {
-        enterDate: null
+        schoolName: null,
+        cuProvinceName: null,
+        cuCityName: null,
+        college: null,
+        major: null,
+        gradEducation: null,
+        enterDate: null,
+        enterDateControl: null
       }
-    },
-    computed: {
-      store () {
-        return this.$store.state
-      },
-      enterDateObj () {
-        return this.store['enterDate'] && new Date(this.store['enterDate'])
-      }
-
     },
     methods: {
       submit () {
-        if (!this.store['schoolName']) {
+        if (!this.schoolName) {
           return this.$toast('请完善学校名称')
         }
-        if (!this.store['college']) {
+        if (!this.college) {
           return this.$toast('请完善院系名称')
         }
-        if (!this.store['major']) {
+        if (!this.major) {
           return this.$toast('请完善专业名称')
         }
-        if (!this.store['gradEducation']) {
+        if (!this.gradEducation) {
           return this.$toast('请完善毕业学历')
         }
-        if (!this.store['enterDate']) {
+        if (!this.enterDate) {
           return this.$toast('请完善入学年月')
         }
         this.$tools.api.post('/bluemoon-control/schoolMatch/checkTeamName', {
-          'matchType': this.store['matchType'],
-          'schoolCode': this.store['schoolCode'],
-          'teamName': this.store['teamName']
+          'matchType': this.matchType,
+          'schoolCode': this.schoolCode,
+          'teamName': this.teamName
         }, {
           '_indicator': true
         }).then(res => {
+          this.$store.state['college'] = this.cuCityName
+          this.$store.state['major'] = this.cuCityName
+          this.$store.state['gradEducation'] = this.cuCityName
+          this.$store.state['enterDate'] = this.cuCityName
           this.$router.push('page3')
         })
       }
     },
     created () {
-      this.enterDate = this.store['enterDate'] ? new Date(this.store['enterDate']) : new Date()
+      this.schoolName = this.$store.state['schoolName']
+      this.cuProvinceName = this.$store.state['cuProvinceName']
+      this.cuCityName = this.$store.state['cuCityName']
+      this.college = this.$store.state['college']
+      this.major = this.$store.state['major']
+      this.gradEducation = this.$store.state['gradEducation']
+      this.enterDate = this.$store.state['enterDate']
+      this.enterDateControl = this.enterDate || new Date()
     }
   }
 </script>

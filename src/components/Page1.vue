@@ -195,16 +195,18 @@
             this.$store.state['mobileTimer'] = this.mobileTimer
             this.$store.state['mobileCounter'] = this.mobileCounter
             this.$store.state['email'] = this.email
-            this.$store.state['college'] = this.college
-            this.$store.state['cuCityCode'] = this.cuCityCode
-            this.$store.state['cuCityName'] = this.cuCityName
-            this.$store.state['cuProvinceCode'] = this.cuProvinceCode
-            this.$store.state['cuProvinceName'] = this.cuProvinceName
-            this.$store.state['enterDate'] = this.enterDate
-            this.$store.state['gradEducation'] = this.gradEducation
-            this.$store.state['major'] = this.major
-            this.$store.state['schoolCode'] = this.schoolCode
-            this.$store.state['schoolName'] = this.schoolName
+            if (this.matchType === 'member') {
+              this.$store.state['college'] = this.college
+              this.$store.state['cuCityCode'] = this.cuCityCode
+              this.$store.state['cuCityName'] = this.cuCityName
+              this.$store.state['cuProvinceCode'] = this.cuProvinceCode
+              this.$store.state['cuProvinceName'] = this.cuProvinceName
+              this.$store.state['enterDate'] = this.enterDate
+              this.$store.state['gradEducation'] = this.gradEducation
+              this.$store.state['major'] = this.major
+              this.$store.state['schoolCode'] = this.schoolCode
+              this.$store.state['schoolName'] = this.schoolName
+            }
             this.$router.push('page2')
           })
         } else {
