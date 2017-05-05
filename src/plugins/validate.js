@@ -108,8 +108,6 @@ export default {
         '_indicator': true
       }).then(res => {
         vue.$router.push('/finish')
-      }).catch(() => {
-        vue.$indicator.close()
       })
     }
   }

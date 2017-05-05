@@ -5,6 +5,7 @@
 <script>
 export default {
   created () {
+    // console.log(this.$tools.validate['idcardValidator']['makeID']())
     this.$route.path === '/test' || this.$store.state['matchType'] || this.$router.replace('/form')
   },
   watch: {
