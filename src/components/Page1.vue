@@ -53,6 +53,11 @@
 </template>
 <script>
   export default {
+    data () {
+      return {
+        cacheMatchType: null
+      }
+    },
     computed: {
       store () {
         return this.$store.state
@@ -137,8 +142,22 @@
         }
       },
       submit () {
+        if (this.store['matchType'] === 'leader' && this.store['matchType'] !== this.cacheMatchType) {
+          this.store['cuCityCode'] = null
+          this.store['cuCityName'] = null
+          this.store['cuProvinceCode'] = null
+          this.store['cuProvinceName'] = null
+          this.store['enterDate'] = null
+          this.store['gradEducation'] = null
+          this.store['major'] = null
+          this.store['schoolCode'] = null
+          this.store['schoolName'] = null
+        }
         this.$tools.validate['checkBeforeSubmit']['page1'].call(null, this)
       }
+    },
+    created () {
+      this.cacheMatchType = this.store['matchType']
     }
   }
 </script>

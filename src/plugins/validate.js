@@ -31,18 +31,6 @@ export default {
         }, {
           '_indicator': true
         }).then(res => {
-          if (vue.$store.state['matchType'] === 'leader') {
-            vue.$store.state['college'] = null
-            vue.$store.state['cuCityCode'] = null
-            vue.$store.state['cuCityName'] = null
-            vue.$store.state['cuProvinceCode'] = null
-            vue.$store.state['cuProvinceName'] = null
-            vue.$store.state['enterDate'] = null
-            vue.$store.state['gradEducation'] = null
-            vue.$store.state['major'] = null
-            vue.$store.state['schoolCode'] = null
-            vue.$store.state['schoolName'] = null
-          }
           vue.$router.push('page2')
         })
       } else {
