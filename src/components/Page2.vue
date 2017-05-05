@@ -58,29 +58,8 @@
     },
     methods: {
       submit () {
-        if (!this.store['schoolName']) {
-          return this.$toast('请完善学校名称')
-        }
-        if (!this.store['college']) {
-          return this.$toast('请完善院系名称')
-        }
-        if (!this.store['major']) {
-          return this.$toast('请完善专业名称')
-        }
-        if (!this.store['gradEducation']) {
-          return this.$toast('请完善毕业学历')
-        }
-        if (!this.store['enterDate']) {
-          return this.$toast('请完善入学年月')
-        }
-        this.$tools.api.post('/bluemoon-control/schoolMatch/checkTeamName', {
-          'matchType': this.store['matchType'],
-          'schoolCode': this.store['schoolCode'],
-          'teamName': this.store['teamName']
-        }, {
-          '_indicator': true
-        }).then(res => {
-          this.$router.push('page3')
+        this.$tools.validate['checkBeforeSubmit']['page1'].call(null, this).then(() => {
+          return this.$tools.validate['checkBeforeSubmit']['page2'].call(null, this)
         })
       }
     },

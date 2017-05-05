@@ -84,6 +84,7 @@
       },
       upload (ev) {
         this.$indicator.open()
+        console.log(ev.target.files[0])
         this.$tools.loadImage(ev.target.files[0], (canvas) => {
           let base64 = canvas.toDataURL()
           this.$tools.api.post('/bluemoon-control/schoolMatch/uploadImg', {
@@ -104,53 +105,10 @@
         })
       },
       submit () {
-        if (!this.store['personName']) {
-          return this.$toast('请完善姓名')
-        }
-        if (!this.store['gender']) {
-          return this.$toast('请完善性别')
-        }
-        if (!this.$tools.validate['idcardValidator'].isValid(this.store['idcard'])) {
-          return this.$toast('身份证号格式不正确，请重新填写哦！')
-        }
-        if (!this.store['jgCityCode']) {
-          return this.$toast('请完善籍贯')
-        }
-        if (!this.store['photoPath']) {
-          return this.$toast('请完善个人照')
-        }
-        this.$tools.api.post('/bluemoon-control/schoolMatch/saveApplyInfo', {
-          'blood': this.store['blood'] || 'NONE',
-          'college': this.store['college'],
-          'cuCityCode': this.store['cuCityCode'],
-          'cuCityName': this.store['cuCityName'],
-          'cuProvinceCode': this.store['cuProvinceCode'],
-          'cuProvinceName': this.store['cuProvinceName'],
-          'email': this.store['email'],
-          'enterDate': this.store['enterDate'],
-          'gender': this.store['gender'],
-          'gradEducation': this.store['gradEducation'],
-          'idcard': this.store['idcard'],
-          'jgCityCode': this.store['jgCityCode'],
-          'jgCityName': this.store['jgCityName'],
-          'jgProvinceCode': this.store['jgProvinceCode'],
-          'jgProvinceName': this.store['jgProvinceName'],
-          'major': this.store['major'],
-          'matchType': this.store['matchType'],
-          'mobile': this.store['mobile'],
-          'personName': this.store['personName'],
-          'photoPath': this.store['photoPath'],
-          'schoolCode': this.store['schoolCode'],
-          'schoolName': this.store['schoolName'],
-          'teamId': this.store['teamId'],
-          'teamName': this.store['teamName']
-        }, {
-          '_indicator': true
-        }).then(res => {
-          this.store['_SUBMIT_ALREADY'] = true
-          this.$router.push('/finish')
-        }).catch(() => {
-          this.$indicator.close()
+        this.$tools.validate['checkBeforeSubmit']['page1'].call(null, this).then(() => {
+          return this.$tools.validate['checkBeforeSubmit']['page2'].call(null, this).then(() => {
+            return this.$tools.validate['checkBeforeSubmit']['page3'].call(null, this)
+          })
         })
       }
     },

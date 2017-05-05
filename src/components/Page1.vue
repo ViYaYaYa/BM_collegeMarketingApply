@@ -137,52 +137,7 @@
         }
       },
       submit () {
-        if (this.store['matchType']) {
-          if (this.store['matchType'] === 'leader') {
-            if (!this.store['teamName']) {
-              return this.$toast('请完善团队名称')
-            }
-          }
-          if (this.store['matchType'] === 'member') {
-            if (this.store['mobileLeaderStatus'] !== 'SUCCESS' && !this.store['teamName']) {
-              return this.$toast('请完善队长手机')
-            }
-          }
-          if (!this.$tools.validate['phone'].test(this.store['mobile'])) {
-            return this.$toast('请确认个人手机')
-          }
-          if (!this.store['mobileCode']) {
-            return this.$toast('请确认验证码')
-          }
-          if (!this.$tools.validate['email'].test(this.store['email'])) {
-            return this.$toast('请正确填写邮箱地址')
-          }
-          this.$tools.api.post('/bluemoon-control/schoolMatch/checkVerifyCode', {
-            'matchType': this.store['matchType'],
-            'mobileNo': this.store['mobile'],
-            'schoolCode': this.store['matchType'] === 'member' ? this.store['schoolCode'] : '',
-            'teamName': this.store['matchType'] === 'member' ? this.store['teamName'] : '',
-            'verifyCode': this.store['mobileCode']
-          }, {
-            '_indicator': true
-          }).then(res => {
-            if (this.store['matchType'] === 'leader') {
-              this.store['college'] = null
-              this.store['cuCityCode'] = null
-              this.store['cuCityName'] = null
-              this.store['cuProvinceCode'] = null
-              this.store['cuProvinceName'] = null
-              this.store['enterDate'] = null
-              this.store['gradEducation'] = null
-              this.store['major'] = null
-              this.store['schoolCode'] = null
-              this.store['schoolName'] = null
-            }
-            this.$router.push('page2')
-          })
-        } else {
-          return this.$toast('请完善参赛身份')
-        }
+        this.$tools.validate['checkBeforeSubmit']['page1'].call(null, this)
       }
     }
   }
