@@ -71,7 +71,8 @@
         gradEducation: null,
         major: null,
         schoolCode: null,
-        schoolName: null
+        schoolName: null,
+        teamId: null
       }
     },
     watch: {
@@ -194,6 +195,19 @@
             this.$store.state['mobileCode'] = this.mobileCode
             this.$store.state['email'] = this.email
             if (this.matchType === 'member') {
+              this.$store.state['teamId'] = this.teamId
+              this.$store.state['college'] = this.college
+              this.$store.state['cuCityCode'] = this.cuCityCode
+              this.$store.state['cuCityName'] = this.cuCityName
+              this.$store.state['cuProvinceCode'] = this.cuProvinceCode
+              this.$store.state['cuProvinceName'] = this.cuProvinceName
+              this.$store.state['enterDate'] = this.enterDate
+              this.$store.state['gradEducation'] = this.gradEducation
+              this.$store.state['major'] = this.major
+              this.$store.state['schoolCode'] = this.schoolCode
+              this.$store.state['schoolName'] = this.schoolName
+            } else {
+              this.$store.state['teamId'] = null
               this.$store.state['college'] = this.college
               this.$store.state['cuCityCode'] = this.cuCityCode
               this.$store.state['cuCityName'] = this.cuCityName
@@ -213,6 +227,7 @@
       }
     },
     created () {
+      this.teamId = this.$store.state['teamId']
       this.matchType = this.$store.state['matchType']
       this.mobileLeader = this.$store.state['mobileLeader']
       this.mobileLeaderStatus = this.$store.state['mobileLeaderStatus']
