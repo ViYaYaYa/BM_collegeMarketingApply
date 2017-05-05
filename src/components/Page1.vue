@@ -87,7 +87,16 @@
               this.store['mobileLeaderStatus'] = 'SUCCESS'
               this.store['teamName'] = res['teamName']
               this.store['teamId'] = res['teamId']
-              Object.assign(this.store, res['schoolInfo'])
+              this.store['college'] = res['schoolInfo']['college']
+              this.store['cuCityCode'] = res['schoolInfo']['cuCityCode']
+              this.store['cuCityName'] = res['schoolInfo']['cuCityName']
+              this.store['cuProvinceCode'] = res['schoolInfo']['cuProvinceCode']
+              this.store['cuProvinceName'] = res['schoolInfo']['cuProvinceName']
+              this.store['enterDate'] = res['schoolInfo']['enterDate']
+              this.store['gradEducation'] = res['schoolInfo']['gradEducation']
+              this.store['major'] = res['schoolInfo']['major']
+              this.store['schoolCode'] = res['schoolInfo']['schoolCode']
+              this.store['schoolName'] = res['schoolInfo']['schoolName']
             }
           }).catch(() => {
             this.store['mobileLeaderStatus'] = 'WARN'
@@ -157,6 +166,18 @@
           }, {
             '_indicator': true
           }).then(res => {
+            if (this.store['matchType'] === 'leader') {
+              this.store['college'] = null
+              this.store['cuCityCode'] = null
+              this.store['cuCityName'] = null
+              this.store['cuProvinceCode'] = null
+              this.store['cuProvinceName'] = null
+              this.store['enterDate'] = null
+              this.store['gradEducation'] = null
+              this.store['major'] = null
+              this.store['schoolCode'] = null
+              this.store['schoolName'] = null
+            }
             this.$router.push('page2')
           })
         } else {
