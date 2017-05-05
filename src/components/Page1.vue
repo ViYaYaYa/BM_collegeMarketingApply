@@ -77,19 +77,21 @@
       }
     },
     watch: {
-      matchType () {
-        this.mobileLeader = null
-        this.mobileLeaderStatus = null
-        this.college = null
-        this.cuCityCode = null
-        this.cuCityName = null
-        this.cuProvinceCode = null
-        this.cuProvinceName = null
-        this.enterDate = null
-        this.gradEducation = null
-        this.major = null
-        this.schoolCode = null
-        this.schoolName = null
+      matchType (value, oldValue) {
+        if (oldValue) {
+          this.mobileLeader = null
+          this.mobileLeaderStatus = null
+          this.college = null
+          this.cuCityCode = null
+          this.cuCityName = null
+          this.cuProvinceCode = null
+          this.cuProvinceName = null
+          this.enterDate = null
+          this.gradEducation = null
+          this.major = null
+          this.schoolCode = null
+          this.schoolName = null
+        }
       },
       mobileLeader () {
         if (this.mobileLeaderStatus) {

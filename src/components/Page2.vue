@@ -72,16 +72,16 @@
           return this.$toast('请完善入学年月')
         }
         this.$tools.api.post('/bluemoon-control/schoolMatch/checkTeamName', {
-          'matchType': this.matchType,
-          'schoolCode': this.schoolCode,
-          'teamName': this.teamName
+          'matchType': this.$store.state['matchType'],
+          'schoolCode': this.$store.state['schoolCode'],
+          'teamName': this.$store.state['teamName']
         }, {
           '_indicator': true
         }).then(res => {
-          this.$store.state['college'] = this.cuCityName
-          this.$store.state['major'] = this.cuCityName
-          this.$store.state['gradEducation'] = this.cuCityName
-          this.$store.state['enterDate'] = this.cuCityName
+          this.$store.state['college'] = this.college
+          this.$store.state['major'] = this.major
+          this.$store.state['gradEducation'] = this.gradEducation
+          this.$store.state['enterDate'] = this.enterDate
           this.$router.push('page3')
         })
       }
@@ -94,7 +94,7 @@
       this.major = this.$store.state['major']
       this.gradEducation = this.$store.state['gradEducation']
       this.enterDate = this.$store.state['enterDate']
-      this.enterDateControl = this.enterDate || new Date()
+      this.enterDateControl = this.$store.state['enterDate'] || new Date()
     }
   }
 </script>
