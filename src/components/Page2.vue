@@ -58,9 +58,7 @@
     },
     methods: {
       submit () {
-        this.$tools.validate['checkBeforeSubmit']['page1'].call(null, this).then(() => {
-          return this.$tools.validate['checkBeforeSubmit']['page2'].call(null, this)
-        })
+        this.$tools.validate['checkBeforeSubmit']['page2'].call(null, this)
       }
     },
     created () {

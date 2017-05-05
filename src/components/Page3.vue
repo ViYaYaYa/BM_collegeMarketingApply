@@ -84,7 +84,6 @@
       },
       upload (ev) {
         this.$indicator.open()
-        console.log(ev.target.files[0])
         this.$tools.loadImage(ev.target.files[0], (canvas) => {
           let base64 = canvas.toDataURL()
           this.$tools.api.post('/bluemoon-control/schoolMatch/uploadImg', {
@@ -105,11 +104,7 @@
         })
       },
       submit () {
-        this.$tools.validate['checkBeforeSubmit']['page1'].call(null, this).then(() => {
-          return this.$tools.validate['checkBeforeSubmit']['page2'].call(null, this).then(() => {
-            return this.$tools.validate['checkBeforeSubmit']['page3'].call(null, this)
-          })
-        })
+        this.$tools.validate['checkBeforeSubmit']['page3'].call(null, this)
       }
     },
     mounted () {
