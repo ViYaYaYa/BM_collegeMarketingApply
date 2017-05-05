@@ -6,6 +6,23 @@
 export default {
   created () {
     this.$route.path === '/test' || this.$store.state['matchType'] || this.$router.replace('/form')
+  },
+  watch: {
+    $route (to, from) {
+      if (to['path'] === '/form/page2' && from['path'] === '/form/page1') {
+        this.$tools.validate['checkBeforeSubmit']['page1'].call(null, this).catch(() => {
+          this.$router.back()
+        })
+      } else if (to['path'] === '/form/page3' && from['path'] === '/form/page2') {
+        this.$tools.validate['checkBeforeSubmit']['page2'].call(null, this).catch(() => {
+          this.$router.back()
+        })
+      } else if (to['path'] === '/finish' && from['path'] === '/form/page3') {
+        this.$tools.validate['checkBeforeSubmit']['page3'].call(null, this).catch(() => {
+          this.$router.back()
+        })
+      }
+    }
   }
 }
 </script>
