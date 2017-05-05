@@ -69,6 +69,7 @@
         // this.store['teamName'] = null
         this.store['mobileLeader'] = null
         this.store['mobileLeaderStatus'] = null
+        this.store['teamId'] = null
       },
       mobileLeader () {
         if (this.store['mobileLeaderStatus']) {
@@ -158,10 +159,6 @@
           }).then(res => {
             this.$router.push('page2')
           })
-          // if (process.env.CODE_ENV === 'development') {
-          //   this.$toast('目前处于测试环境，即使验证码不正确也能跳转')
-          //   this.$router.push('page2')
-          // }
         } else {
           return this.$toast('请完善参赛身份')
         }
