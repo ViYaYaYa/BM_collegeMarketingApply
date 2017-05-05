@@ -7,15 +7,11 @@ export default {
   checkBeforeSubmit: {
     page1: (vue) => {
       if (vue.$store.state['matchType']) {
-        if (vue.$store.state['matchType'] === 'leader') {
-          if (!vue.$store.state['teamName']) {
-            return Promise.reject(vue.$toast('请完善团队名称'))
-          }
+        if (vue.$store.state['matchType'] === 'leader' && !vue.$store.state['teamName']) {
+          return Promise.reject(vue.$toast('请完善团队名称'))
         }
-        if (vue.$store.state['matchType'] === 'member') {
-          if (vue.$store.state['mobileLeaderStatus'] !== 'SUCCESS' && !vue.$store.state['teamName']) {
-            return Promise.reject(vue.$toast('请完善队长手机'))
-          }
+        if (vue.$store.state['matchType'] === 'member' && vue.$store.state['mobileLeaderStatus'] !== 'SUCCESS') {
+          return Promise.reject(vue.$toast('请完善队长手机'))
         }
         if (!vue.$tools.validate['phone'].test(vue.$store.state['mobile'])) {
           return Promise.reject(vue.$toast('请确认个人手机'))
@@ -54,25 +50,25 @@ export default {
       }
     },
     page2: (vue) => {
-      if (!vue.store['schoolName']) {
+      if (!vue.$store.state['schoolName']) {
         return Promise.reject(vue.$toast('请完善学校名称'))
       }
-      if (!vue.store['college']) {
+      if (!vue.$store.state['college']) {
         return Promise.reject(vue.$toast('请完善院系名称'))
       }
-      if (!vue.store['major']) {
+      if (!vue.$store.state['major']) {
         return Promise.reject(vue.$toast('请完善专业名称'))
       }
-      if (!vue.store['gradEducation']) {
+      if (!vue.$store.state['gradEducation']) {
         return Promise.reject(vue.$toast('请完善毕业学历'))
       }
-      if (!vue.store['enterDate']) {
+      if (!vue.$store.state['enterDate']) {
         return Promise.reject(vue.$toast('请完善入学年月'))
       }
       return vue.$tools.api.post('/bluemoon-control/schoolMatch/checkTeamName', {
-        'matchType': vue.store['matchType'],
-        'schoolCode': vue.store['schoolCode'],
-        'teamName': vue.store['teamName']
+        'matchType': vue.$store.state['matchType'],
+        'schoolCode': vue.$store.state['schoolCode'],
+        'teamName': vue.$store.state['teamName']
       }, {
         '_indicator': true
       }).then(res => {
@@ -80,50 +76,50 @@ export default {
       })
     },
     page3: (vue) => {
-      if (!vue.store['personName']) {
+      if (!vue.$store.state['personName']) {
         return Promise.reject(vue.$toast('请完善姓名'))
       }
-      if (!vue.store['gender']) {
+      if (!vue.$store.state['gender']) {
         return Promise.reject(vue.$toast('请完善性别'))
       }
-      if (!vue.$tools.validate['idcardValidator'].isValid(vue.store['idcard'])) {
+      if (!vue.$tools.validate['idcardValidator'].isValid(vue.$store.state['idcard'])) {
         return Promise.reject(vue.$toast('身份证号格式不正确，请重新填写哦！'))
       }
-      if (!vue.store['jgCityCode']) {
+      if (!vue.$store.state['jgCityCode']) {
         return Promise.reject(vue.$toast('请完善籍贯'))
       }
-      if (!vue.store['photoPath']) {
+      if (!vue.$store.state['photoPath']) {
         return Promise.reject(vue.$toast('请完善个人照'))
       }
       return vue.$tools.api.post('/bluemoon-control/schoolMatch/saveApplyInfo', {
-        'blood': vue.store['blood'] || 'NONE',
-        'college': vue.store['college'],
-        'cuCityCode': vue.store['cuCityCode'],
-        'cuCityName': vue.store['cuCityName'],
-        'cuProvinceCode': vue.store['cuProvinceCode'],
-        'cuProvinceName': vue.store['cuProvinceName'],
-        'email': vue.store['email'],
-        'enterDate': vue.store['enterDate'],
-        'gender': vue.store['gender'],
-        'gradEducation': vue.store['gradEducation'],
-        'idcard': vue.store['idcard'],
-        'jgCityCode': vue.store['jgCityCode'],
-        'jgCityName': vue.store['jgCityName'],
-        'jgProvinceCode': vue.store['jgProvinceCode'],
-        'jgProvinceName': vue.store['jgProvinceName'],
-        'major': vue.store['major'],
-        'matchType': vue.store['matchType'],
-        'mobile': vue.store['mobile'],
-        'personName': vue.store['personName'],
-        'photoPath': vue.store['photoPath'],
-        'schoolCode': vue.store['schoolCode'],
-        'schoolName': vue.store['schoolName'],
-        'teamId': vue.store['teamId'],
-        'teamName': vue.store['teamName']
+        'blood': vue.$store.state['blood'] || 'NONE',
+        'college': vue.$store.state['college'],
+        'cuCityCode': vue.$store.state['cuCityCode'],
+        'cuCityName': vue.$store.state['cuCityName'],
+        'cuProvinceCode': vue.$store.state['cuProvinceCode'],
+        'cuProvinceName': vue.$store.state['cuProvinceName'],
+        'email': vue.$store.state['email'],
+        'enterDate': vue.$store.state['enterDate'],
+        'gender': vue.$store.state['gender'],
+        'gradEducation': vue.$store.state['gradEducation'],
+        'idcard': vue.$store.state['idcard'],
+        'jgCityCode': vue.$store.state['jgCityCode'],
+        'jgCityName': vue.$store.state['jgCityName'],
+        'jgProvinceCode': vue.$store.state['jgProvinceCode'],
+        'jgProvinceName': vue.$store.state['jgProvinceName'],
+        'major': vue.$store.state['major'],
+        'matchType': vue.$store.state['matchType'],
+        'mobile': vue.$store.state['mobile'],
+        'personName': vue.$store.state['personName'],
+        'photoPath': vue.$store.state['photoPath'],
+        'schoolCode': vue.$store.state['schoolCode'],
+        'schoolName': vue.$store.state['schoolName'],
+        'teamId': vue.$store.state['teamId'],
+        'teamName': vue.$store.state['teamName']
       }, {
         '_indicator': true
       }).then(res => {
-        vue.store['_SUBMIT_ALREADY'] = true
+        vue.$store.state['_SUBMIT_ALREADY'] = true
         vue.$router.push('/finish')
       }).catch(() => {
         vue.$indicator.close()
