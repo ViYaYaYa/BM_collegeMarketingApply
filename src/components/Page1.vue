@@ -123,7 +123,7 @@
             }).then(() => {
               counter(120)
             }).catch(res => {
-              if (res['responseCode'] === 2203) {
+              if (res['responseCode'] === 2213) {
                 counter(res['time'])
               } else {
                 clearTimeout(this.store['mobileTimer'])
