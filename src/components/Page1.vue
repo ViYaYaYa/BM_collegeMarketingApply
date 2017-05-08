@@ -38,11 +38,11 @@
         <span class="ui-cell-key">个人手机</span>
         <input class="ui-cell-value" type="tel" placeholder="请输入" v-model="store['mobile']" maxlength="11">
       </label>
-      <label class="ui-cell">
+      <div class="ui-cell">
         <span class="ui-cell-key">验证码</span>
         <input class="ui-cell-value" type="tel" placeholder="请输入" v-model="store['mobileCode']">
         <button class="ui-cell-control" :class="{ 'ui-cell-control-disabled': store['mobileTimer'] }" @click="getAuthCode">{{ store['mobileTimer'] ? '再次获取(' + store['mobileCounter'] + ')' : store['mobileCounter'] === 0 ? '重新获取' : '获取验证码' }}</button>
-      </label>
+      </div>
       <label class="ui-cell">
         <span class="ui-cell-key">常用邮箱</span>
         <input class="ui-cell-value" type="text" placeholder="请输入" v-model="store['email']">

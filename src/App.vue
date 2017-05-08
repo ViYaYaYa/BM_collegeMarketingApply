@@ -68,6 +68,10 @@ export default {
     appearance: none;
   }
 
+  .mint-msgbox {
+    z-index: 1000;
+  }
+
   .mint-msgbox-title {
     font-size: 12px;
     color: #999;
