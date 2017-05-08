@@ -53,11 +53,6 @@
 </template>
 <script>
   export default {
-    data () {
-      return {
-        cacheMatchType: null
-      }
-    },
     computed: {
       store () {
         return this.$store.state
@@ -72,9 +67,8 @@
     watch: {
       matchType () {
         // this.store['teamName'] = null
-        this.store['mobileLeader'] = null
+        // this.store['mobileLeader'] = null
         this.store['mobileLeaderStatus'] = null
-        this.store['teamId'] = null
       },
       mobileLeader () {
         if (this.store['mobileLeaderStatus']) {
@@ -142,17 +136,6 @@
         }
       },
       submit () {
-        if (this.store['matchType'] === 'leader' && this.store['matchType'] !== this.cacheMatchType) {
-          this.store['cuCityCode'] = null
-          this.store['cuCityName'] = null
-          this.store['cuProvinceCode'] = null
-          this.store['cuProvinceName'] = null
-          this.store['enterDate'] = null
-          this.store['gradEducation'] = null
-          this.store['major'] = null
-          this.store['schoolCode'] = null
-          this.store['schoolName'] = null
-        }
         this.store['_CHECK_BEFORE_SUBMIT_SUCCESS'] = true
         this.$tools.validate['checkBeforeSubmit']['page1'].call(null, this).catch(() => {
           this.store['_CHECK_BEFORE_SUBMIT_SUCCESS'] = false
@@ -160,7 +143,7 @@
       }
     },
     created () {
-      this.cacheMatchType = this.store['matchType']
+      this.store['matchTypeCache'] = this.store['matchType']
     }
   }
 </script>

@@ -5,7 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    '_CHECK_BEFORE_SUBMIT_SUCCESS': null, //
+    '_CHECK_BEFORE_SUBMIT_SUCCESS': null, // 检查是通过验证进入下一步还是滑动进入
     'blood': null, // 血型 string 选填
     'college': null, // 院系名称 string 必填
     'cuCityCode': null, // 学校城市编码 string 必填
@@ -23,6 +23,7 @@ export default new Vuex.Store({
     'jgProvinceName': null, // 籍贯省份名称 string 必填
     'major': null, // 专业名称 string 必填
     'matchType': null, // 参赛身份 string leader-队长 member-队员，必填
+    'matchTypeCache': null, // 参赛身份进入第一页时做的缓存，为验证时作参考
     'mobileCode': null, // 个人手机验证码 内部接口需要
     'mobile': null, // 手机号码 string 必填
     'mobileCounter': null, // 手机验证码查询倒计时 内部接口需要

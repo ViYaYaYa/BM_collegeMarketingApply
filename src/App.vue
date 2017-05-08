@@ -11,21 +11,23 @@ export default {
   watch: {
     $route (to, from) {
       if (this.$store.state['_CHECK_BEFORE_SUBMIT_SUCCESS']) {
+        // 如果是通过上一步验证正常跳转过来
         this.$store.state['_CHECK_BEFORE_SUBMIT_SUCCESS'] = false
-      } else {
-        if (to['path'] === '/form/page2' && from['path'] === '/form/page1') {
-          this.$tools.validate['checkBeforeSubmit']['page1'].call(null, this).catch(() => {
-            this.$router.back()
-          })
-        } else if (to['path'] === '/form/page3' && from['path'] === '/form/page2') {
-          this.$tools.validate['checkBeforeSubmit']['page2'].call(null, this).catch(() => {
-            this.$router.back()
-          })
-        } else if (to['path'] === '/finish' && from['path'] === '/form/page3') {
-          this.$tools.validate['checkBeforeSubmit']['page3'].call(null, this).catch(() => {
-            this.$router.back()
-          })
-        }
+      } else if (to['path'] === '/form/page2' && from['path'] === '/form/page1') {
+        // 第一页滑动至第二页
+        this.$tools.validate['checkBeforeSubmit']['page1'].call(null, this).catch(() => {
+          this.$router.back()
+        })
+      } else if (to['path'] === '/form/page3' && from['path'] === '/form/page2') {
+        // 第二页滑动至第三页
+        this.$tools.validate['checkBeforeSubmit']['page2'].call(null, this).catch(() => {
+          this.$router.back()
+        })
+      } else if (to['path'] === '/finish' && from['path'] === '/form/page3') {
+        // 第三页滑动至成功页
+        this.$tools.validate['checkBeforeSubmit']['page3'].call(null, this).catch(() => {
+          this.$router.back()
+        })
       }
     }
   }
@@ -36,7 +38,7 @@ export default {
   *, *:after, *:before {
     box-sizing: border-box;
   }
-  
+
   html, body {
     margin: 0;
     padding: 0;
@@ -63,7 +65,7 @@ export default {
   }
 
   select {
-    appearance: none;    
+    appearance: none;
   }
 
   .mint-msgbox-title {

@@ -22,6 +22,21 @@ export default {
         if (!vue.$tools.validate['email'].test(vue.$store.state['email'])) {
           return Promise.reject(vue.$toast('请正确填写邮箱地址'))
         }
+        if (vue.$store.state['matchType'] === 'leader' && vue.$store.state['matchType'] !== vue.$store.state['matchTypeCache']) {
+          vue.$store.state['mobileLeader'] = null
+          vue.$store.state['mobileLeaderStatus'] = null
+          vue.$store.state['teamId'] = null
+          vue.$store.state['college'] = null
+          vue.$store.state['cuCityCode'] = null
+          vue.$store.state['cuCityName'] = null
+          vue.$store.state['cuProvinceCode'] = null
+          vue.$store.state['cuProvinceName'] = null
+          vue.$store.state['enterDate'] = null
+          vue.$store.state['gradEducation'] = null
+          vue.$store.state['major'] = null
+          vue.$store.state['schoolCode'] = null
+          vue.$store.state['schoolName'] = null
+        }
         return vue.$tools.api.post('/bluemoon-control/schoolMatch/checkVerifyCode', {
           'matchType': vue.$store.state['matchType'],
           'mobileNo': vue.$store.state['mobile'],
