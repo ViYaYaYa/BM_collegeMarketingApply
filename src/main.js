@@ -13,6 +13,7 @@ import Api from './api'
 import Validate from './plugins/validate'
 import { RegionSelect } from './plugins/regionSelect'
 import LoadImage from 'blueimp-load-image'
+import Wechat from './plugins/wechat'
 Vue.use(MintUI)
 Object.defineProperty(Vue.prototype, '$tools', {
   get: () => {
@@ -21,7 +22,8 @@ Object.defineProperty(Vue.prototype, '$tools', {
       validate: Validate,
       regionSelect: RegionSelect,
       loadImage: LoadImage,
-      origin: process.env.CODE_ENV === 'development' ? '//tmallapi.bluemoon.com.cn' : '//mallapi.bluemoon.com.cn'
+      origin: process.env.CODE_ENV === 'development' ? '//tmallapi.bluemoon.com.cn' : '//mallapi.bluemoon.com.cn',
+      wechat: Wechat
     }
   }
 })
