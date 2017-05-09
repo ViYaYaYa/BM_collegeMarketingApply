@@ -7,8 +7,11 @@
  * 时间：2016-12-10
  */
 import './regionSelect.less'
-import { getProvince } from '@/api'
+import { MALL_API } from '@/api'
 import $ from 'jquery'
+let getProvince = (config = {}) => {
+  return MALL_API.post('moonRegion/region/getRegionSelect.action', config.data, config)
+}
 export const RegionSelect = ($element, option) => {
   // 不需要外部引用jQuery
   $element = $element instanceof $ ? $element : $($element)

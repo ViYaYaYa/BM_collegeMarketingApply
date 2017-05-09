@@ -2,7 +2,7 @@ import Axios from 'axios'
 import md5 from 'blueimp-md5'
 import Vue from 'vue'
 
-Axios.interceptors.request.use(config => {
+const PUBLIC_QUERY_OBJECT = (params = {}) => {
   let open = {
     'client': 'wx',
     'cuid': 'null',
@@ -11,19 +11,40 @@ Axios.interceptors.request.use(config => {
     'version': '1.0.0'
   }
   let secret = 'Er78s1hcT4Tyoaj2'
-  config.params = Object.assign({}, config.params, open, { 'sign': md5(secret + open['client'] + open['cuid'] + open['format'] + open['time'] + open['version'] + secret) })
-  if (config['_indicator']) {
-    Vue.prototype.$indicator.open()
+  return Object.assign({}, params, open, { 'sign': md5(secret + open['client'] + open['cuid'] + open['format'] + open['time'] + open['version'] + secret) })
+}
+
+const BASE_URL = (() => {
+  switch (process.env.CODE_ENV) {
+    case 'development':
+      return {
+        'MAIN_URL': '//angelapi.bluemoon.com.cn/',
+        'MALL_URL': '//tmallapi.bluemoon.com.cn'
+      }
+    default:
+      return {
+        'MAIN_URL': '//angel.bluemoon.com.cn/',
+        'MALL_URL': '//mallapi.bluemoon.com.cn/'
+      }
   }
-  return config
-}, error => {
-  return Promise.reject(error)
+})()
+
+// ================== MAIN_API ==================
+const MAIN_API = Axios.create({
+  baseURL: BASE_URL['MAIN_URL']
 })
 
-Axios.interceptors.response.use(response => {
-  if (response.config['_indicator']) {
-    Vue.prototype.$indicator.close()
-  }
+MAIN_API.interceptors.request.use(config => {
+  config.params = PUBLIC_QUERY_OBJECT(config.params)
+  config['_indicator'] && Vue.prototype.$indicator.open()
+  return config
+}, err => {
+  err.config['_indicator'] && Vue.prototype.$indicator.close()
+  return Promise.reject(err)
+})
+
+MAIN_API.interceptors.response.use(response => {
+  response.config['_indicator'] && Vue.prototype.$indicator.close()
   if (+response.data['responseCode'] === 0) {
     return response.data
   } else {
@@ -79,22 +100,30 @@ Axios.interceptors.response.use(response => {
     return Promise.reject(response.data)
   }
 }, err => {
-  if (err.config['_indicator']) {
-    Vue.prototype.$indicator.close()
-  }
-  if (err.code === 'ECONNABORTED') {
-    Vue.prototype.$toast('请求超时，请重试')
-  }
+  err.config['_indicator'] && Vue.prototype.$indicator.close()
+  err.code === 'ECONNABORTED' && Vue.prototype.$toast('请求超时，请重试')
   return Promise.reject(err)
 })
 
-if (process.env.CODE_ENV === 'development') {
-  Axios.defaults.baseURL = '//angelapi.bluemoon.com.cn'
-} else {
-  Axios.defaults.baseURL = '//angel.bluemoon.com.cn'
-}
+// ================== MALL_API ==================
+const MALL_API = Axios.create({
+  baseURL: BASE_URL['MALL_URL']
+})
 
-export default Axios
-export let getProvince = (config = {}) => {
-  return Axios.post('//' + (process.env.CODE_ENV === 'development' ? 't' : '') + 'mallapi.bluemoon.com.cn/moonRegion/region/getRegionSelect.action', config.data, config)
+MALL_API.interceptors.response.use(response => {
+  if (+response.data['responseCode'] === 0) {
+    return response.data
+  } else {
+    window.alert(response.data['responseMsg'])
+    return Promise.reject(response.data)
+  }
+}, err => {
+  window.alert(JSON.stringify('err'))
+  return Promise.reject(err)
+})
+
+export {
+  MALL_API,
+  MAIN_API,
+  MAIN_API as default
 }
