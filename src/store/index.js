@@ -5,6 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    '_OPENID': null, // 微信用户OPENID
     '_CHECK_BEFORE_SUBMIT_SUCCESS': null, // 检查是通过验证进入下一步还是滑动进入
     'blood': null, // 血型 string 选填
     'college': null, // 院系名称 string 必填

@@ -6,6 +6,10 @@
 export default {
   created () {
     // console.log(this.$tools.validate['idcardValidator']['makeID']())
+    this.$store.state['_OPENID'] = this.$tools.wechat.getOpenID({
+      url: '//mallapi.bluemoon.com.cn/wechat/',
+      appID: 'wx547eeee78eb998f9'
+    })
     this.$route.path === '/test' || this.$store.state['matchType'] || this.$router.replace('/form')
   },
   watch: {
