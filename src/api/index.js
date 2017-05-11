@@ -31,11 +31,11 @@ const BASE_URL = (() => {
 
 // ================== MAIN_API ==================
 const MAIN_API = Axios.create({
-  baseURL: BASE_URL['MAIN_URL']
+  baseURL: BASE_URL['MAIN_URL'],
+  params: PUBLIC_QUERY_OBJECT()
 })
 
 MAIN_API.interceptors.request.use(config => {
-  config.params = PUBLIC_QUERY_OBJECT(config.params)
   config['_indicator'] && Vue.prototype.$indicator.open()
   return config
 }, err => {
@@ -107,7 +107,8 @@ MAIN_API.interceptors.response.use(response => {
 
 // ================== MALL_API ==================
 const MALL_API = Axios.create({
-  baseURL: BASE_URL['MALL_URL']
+  baseURL: BASE_URL['MALL_URL'],
+  params: PUBLIC_QUERY_OBJECT()
 })
 
 MALL_API.interceptors.response.use(response => {

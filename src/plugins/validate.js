@@ -46,7 +46,12 @@ export default {
         }, {
           '_indicator': true
         }).then(res => {
+          vue.$store.state['_CHECK_BEFORE_SUBMIT_SUCCESS'] = true
           vue.$router.push('page2')
+          return res
+        }).catch(err => {
+          vue.$store.state['_CHECK_BEFORE_SUBMIT_SUCCESS'] = false
+          return Promise.reject(err)
         })
       } else {
         return Promise.reject(vue.$toast('请完善参赛身份'))
@@ -75,7 +80,12 @@ export default {
       }, {
         '_indicator': true
       }).then(res => {
+        vue.$store.state['_CHECK_BEFORE_SUBMIT_SUCCESS'] = true
         vue.$router.push('page3')
+        return res
+      }).catch(err => {
+        vue.$store.state['_CHECK_BEFORE_SUBMIT_SUCCESS'] = false
+        return Promise.reject(err)
       })
     },
     page3: (vue) => {
@@ -113,6 +123,7 @@ export default {
         'major': vue.$store.state['major'],
         'matchType': vue.$store.state['matchType'],
         'mobile': vue.$store.state['mobile'],
+        'openId': vue.$store.state['openId'],
         'personName': vue.$store.state['personName'],
         'photoPath': vue.$store.state['photoPath'],
         'schoolCode': vue.$store.state['schoolCode'],
@@ -122,7 +133,12 @@ export default {
       }, {
         '_indicator': true
       }).then(res => {
+        vue.$store.state['_CHECK_BEFORE_SUBMIT_SUCCESS'] = true
         vue.$router.push('/finish')
+        return res
+      }).catch(err => {
+        vue.$store.state['_CHECK_BEFORE_SUBMIT_SUCCESS'] = false
+        return Promise.reject(err)
       })
     }
   }

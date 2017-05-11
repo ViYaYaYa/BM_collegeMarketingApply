@@ -5,7 +5,6 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    '_OPENID': null, // 微信用户OPENID
     '_CHECK_BEFORE_SUBMIT_SUCCESS': null, // 检查是通过验证进入下一步还是滑动进入
     'blood': null, // 血型 string 选填
     'college': null, // 院系名称 string 必填
@@ -31,6 +30,7 @@ export default new Vuex.Store({
     'mobileTimer': null, // 手机验证码查询定时器 内部接口需要
     'mobileLeader': null, // 队长手机 内部接口需要
     'mobileLeaderStatus': null, // 队长手机查询状态 内部接口需要
+    'openId': null, // 微信用户OPENID
     'personName': null, // 姓名 string 必填
     'photoPath': null, // 图片相对路径 string 必填
     'schoolCode': null, // 学校编码 string 必填

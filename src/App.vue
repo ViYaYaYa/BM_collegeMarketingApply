@@ -5,11 +5,11 @@
 <script>
 export default {
   created () {
-    // console.log(this.$tools.validate['idcardValidator']['makeID']())
-    this.$store.state['_OPENID'] = this.$tools.wechat.getOpenID({
+    console.log('模拟身份证号：', this.$tools.validate['idcardValidator']['makeID']())
+    this.$store.state['openId'] = process.env.NODE_ENV === 'production' ? this.$tools.wechat.getOpenID({
       url: '//mallapi.bluemoon.com.cn/wechat/',
       appID: 'wx547eeee78eb998f9'
-    })
+    }) : 'DUMMY_OPENID'
     this.$route.path === '/test' || this.$store.state['matchType'] || this.$router.replace('/form')
   },
   watch: {

@@ -30,31 +30,26 @@ WECHAT_API.interceptors.response.use(res => {
   return Promise.reject(err)
 })
 
-// 微信SDK全局对象
-let WX = null
-// SDK的script标签
-let TAG = document.createElement('script')
-TAG.onload = () => {
-  WX = window.wx
-}
-TAG.src = 'https://res.wx.qq.com/open/js/jweixin-1.0.0.js'
-document.body.appendChild(TAG)
-
 // 输出
 export default {
-  wx () {
-    return WX
-  },
-  isWx () {
-    return /MicroMessenger/i.test(window.navigator.userAgent)
-  },
+  wxPromise: new Promise(resolve => {
+    if (window.wx) {
+      resolve(window.wx)
+    } else {
+      let tag = document.createElement('script')
+      tag.onload = () => {
+        resolve(window.wx)
+      }
+      tag.src = 'https://res.wx.qq.com/open/js/jweixin-1.0.0.js'
+      document.body.appendChild(tag)
+    }
+  }),
+  isWx: /MicroMessenger/i.test(window.navigator.userAgent),
   getOpenID ({ url, appID } = { url: BASE['url'], appID: BASE['appID'] }) {
     if (/\?(.*&)?openid=/i.test(window.location.href)) {
       return decodeURIComponent(/\?(.*&)?openid=(.*?)(&|$)/i.exec(window.location.href)[2])
     } else {
-      window.location.href = url + 'authorization?appId=' + appID + '&redirect_uri=' + encodeURIComponent(window.location.href) + '&scope=snsapi_base'
+      window.location.replace(url + 'authorization?appId=' + appID + '&redirect_uri=' + encodeURIComponent(window.location.href) + '&scope=snsapi_base')
     }
-  },
-  initWxShare () {
   }
 }
