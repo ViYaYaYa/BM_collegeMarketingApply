@@ -16,13 +16,14 @@ import LoadImage from 'blueimp-load-image'
 import Wechat from './plugins/wechat'
 Vue.use(MintUI)
 Object.defineProperty(Vue.prototype, '$tools', {
-  get: () => {
+  get () {
     return {
+      env: process.env.CODE_ENV,
       api: Api,
       validate: Validate,
       regionSelect: RegionSelect,
       loadImage: LoadImage,
-      origin: process.env.CODE_ENV === 'development' ? '//tmallapi.bluemoon.com.cn' : '//mallapi.bluemoon.com.cn',
+      origin: this.env === 'development' ? '//angelapi.bluemoon.com.cn' : '//angel.bluemoon.com.cn',
       wechat: Wechat
     }
   }

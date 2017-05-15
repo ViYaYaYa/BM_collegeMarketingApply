@@ -1,5 +1,5 @@
 <template>
-  <section class="m_preview" :style="{ 'background-image': store['photoPath'] && 'url(' + $tools.origin + '/angelUpload/' + store['photoPath'] + ')' }">
+  <section class="m_preview" :style="{ 'background-image': store['photoPath'] && 'url(' + ($tools.env === 'development' ? '//tmallapi.bluemoon.com.cn' : $tools.origin) + '/angelUpload/' + store['photoPath'] + ')' }">
     <label class="ui-btn-round upload">更 换<input class="upload-control" type="file" @change="upload" accept="image/*"></label>
   </section>
 </template>
