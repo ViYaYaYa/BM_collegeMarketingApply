@@ -101,9 +101,9 @@ export default {
       if (!vue.$store.state['jgCityCode']) {
         return Promise.reject(vue.$toast('请完善籍贯'))
       }
-      if (!vue.$store.state['photoPath']) {
-        return Promise.reject(vue.$toast('请完善个人照'))
-      }
+      // if (!vue.$store.state['photoPath']) {
+      //   return Promise.reject(vue.$toast('请完善个人照'))
+      // }
       return vue.$tools.api.post('/bluemoon-control/schoolMatch/saveApplyInfo', {
         'blood': vue.$store.state['blood'] || 'NONE',
         'college': vue.$store.state['college'],
@@ -125,7 +125,8 @@ export default {
         'mobile': vue.$store.state['mobile'],
         'openId': vue.$store.state['openId'],
         'personName': vue.$store.state['personName'],
-        'photoPath': vue.$store.state['photoPath'],
+        // 'photoPath': vue.$store.state['photoPath'],
+        'photoPath': '',
         'schoolCode': vue.$store.state['schoolCode'],
         'schoolName': vue.$store.state['schoolName'],
         'teamId': vue.$store.state['teamId'],

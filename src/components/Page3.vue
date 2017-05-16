@@ -55,7 +55,7 @@
         <span class="ui-cell-key">籍贯</span>
         <span class="ui-cell-value-link" ref="place" :class="{ 'ui-cell-value-invalid': !store['jgCityName'] }">{{ store['jgCityName'] ? store['jgProvinceName'] + store['jgCityName'] : '请选择' }}</span>
       </label>
-      <label class="ui-cell">
+      <label class="ui-cell" style="display: none;">
         <span class="ui-cell-key">个人照</span>
         <label class="ui-cell-value file" :class="{ 'ui-cell-value-invalid': !store['photoPath'], 'file-valid': store['photoPath'] }">半身清晰免冠照({{ store['photoPath'] ? '已' : '未' }}上传)<input type="file" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0;" @click="viewImage" @change="upload" accept="image/*"></label>
       </label>
